@@ -39,8 +39,10 @@ export class MovieMapper {
       return {
         id: cast.id,
         name: cast.name,
-        profilePath: `https://image.tmdb.org/t/p/w500${cast.profile_path}`,
-        character: cast.character,
+        profilePath: cast.profile_path
+          ? `https://image.tmdb.org/t/p/w500${cast.profile_path}`
+          : 'https://i.stack.imgur.com/l60Hf.jpg',
+        character: cast.character ?? 'No character',
       };
     });
   };

@@ -24,7 +24,10 @@ export default function HomeScreen() {
       <Text className="mb-2 mt-32 px-4 text-center text-2xl font-bold">Populares</Text>
       <MovieHorizontalList movies={popularMovies ?? []} />
       <Text className="mb-2 mt-6 px-4 text-center text-2xl font-bold">Mejores Calificadas</Text>
-      <MovieHorizontalList movies={topRatedMovies ?? []} />
+      <MovieHorizontalList
+        movies={topRatedMovies?.pages.flat() ?? []}
+        loadNextPage={topRatedQuery.fetchNextPage}
+      />
       <Text className="mb-2 mt-6 px-4 text-center text-2xl font-bold">Próximos Estrenos</Text>
       <MovieHorizontalList movies={upcomingMovies ?? []} />
     </ScrollView>

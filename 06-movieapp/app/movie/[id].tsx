@@ -1,8 +1,8 @@
 import React from 'react';
 import Loading from '@/presentation/components/shared/Loading';
 import { useMovies } from '@/presentation/hooks/useMovies';
-import { useLocalSearchParams } from 'expo-router';
-import { Image, ScrollView, Text, View } from 'react-native';
+import { router, useLocalSearchParams } from 'expo-router';
+import { Image, Pressable, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { FontAwesome } from '@expo/vector-icons';
 import ExternalLink from '@/presentation/components/shared/ExternalLink';
@@ -21,13 +21,23 @@ export default function MovieScreen() {
 
   return (
     <ScrollView style={{ marginBottom: safeArea.bottom }}>
-      <View className="relative h-[500px] w-full">
-        <Image className="h-[500px] w-full rounded-b-3xl" source={{ uri: movie?.backdrop }} />
+      <View style={{ position: 'absolute', left: 10, marginTop: safeArea.top, zIndex: 1 }}>
+        <Pressable onPress={() => router.dismiss()}>
+          <FontAwesome name="chevron-left" size={26} color={'black'} />
+        </Pressable>
+      </View>
+
+      <View className="relative h-[500px] w-full flex-1">
+        <Image
+          className="h-[500px] w-full flex-1 rounded-b-3xl"
+          source={{ uri: movie?.backdrop }}
+          resizeMode="cover"
+        />
         <LinearGradient
-          colors={['transparent', 'rgba(255, 255, 255, 0.8)']}
-          start={{ x: 0.5, y: 0.5 }}
-          end={{ x: 0.5, y: -1 }}
-          className="absolute top-0 h-full w-full"
+          colors={['rgba(0,0,0, 0.1)', 'transparent']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          className="absolute h-full w-full"
         />
       </View>
       <Text className="my-2 px-2 text-center text-4xl font-bold text-blue-500">{movie?.title}</Text>
