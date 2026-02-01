@@ -1,3 +1,4 @@
+import { creditsAction } from '@/core/actions/movies/credits.action';
 import { nowPlayingAction } from '@/core/actions/movies/now-playing.actions';
 import { oneMovieActions } from '@/core/actions/movies/one-movie.actions';
 import { popularAction } from '@/core/actions/movies/popular.actions copy';
@@ -30,6 +31,13 @@ export const useMovies = () => {
     staleTime: 1000 * 60 * 5,
   });
 
+  const creditsQuery = (id: number) => {
+    return useQuery({
+      queryKey: ['movies', 'credits'],
+      queryFn: () => creditsAction(id),
+    });
+  };
+
   const oneMovieQuery = (id: number) => {
     return useQuery({
       queryKey: ['movies', 'oneMovie'],
@@ -43,5 +51,6 @@ export const useMovies = () => {
     popularQuery,
     topRatedQuery,
     upcomingQuery,
+    creditsQuery,
   };
 };

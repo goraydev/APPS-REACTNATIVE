@@ -1,5 +1,10 @@
-import { OneMovieDBResponse, Result } from '../interfaces/movidedb-responset';
-import { Movie, OneMovie } from '../interfaces/movie.interface';
+import {
+  Cast,
+  CastMovieDBResponse,
+  OneMovieDBResponse,
+  Result,
+} from '../interfaces/movidedb-responset';
+import { CastMovie, Movie, OneMovie } from '../interfaces/movie.interface';
 
 export class MovieMapper {
   static fromTheMovieDBToDomain = (movieDB: Result): Movie => {
@@ -27,5 +32,16 @@ export class MovieMapper {
       popularity: movieDB.popularity,
       homePage: movieDB.homepage,
     };
+  };
+
+  static fromCastToDomain = (cast: CastMovieDBResponse['cast']): CastMovie[] => {
+    return cast.map((cast) => {
+      return {
+        id: cast.id,
+        name: cast.name,
+        profilePath: `https://image.tmdb.org/t/p/w500${cast.profile_path}`,
+        character: cast.character,
+      };
+    });
   };
 }

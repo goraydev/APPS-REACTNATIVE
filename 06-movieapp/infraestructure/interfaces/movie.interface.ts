@@ -13,3 +13,10 @@ export interface OneMovie extends Movie {
   popularity: number;
   homePage: string;
 }
+
+export interface CastMovie {
+  id: number;
+  name: string;
+  profilePath: string;
+  character: string | undefined;
+}
