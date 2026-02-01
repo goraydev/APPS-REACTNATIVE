@@ -11,7 +11,7 @@ export default function CreditsMovies({ credits }: Props) {
       <FlatList
         data={credits}
         renderItem={({ item }) => (
-          <View className="flex items-center justify-center rounded-2xl px-4 gap-1">
+          <View className="flex items-center justify-center gap-1 rounded-2xl px-4">
             <Image
               source={{ uri: item.profilePath }}
               className="rounded-2xl shadow-xl"
