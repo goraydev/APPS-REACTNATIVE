@@ -12,7 +12,7 @@ export default function ThemedButton({ onPress, children, className }: Props) {
   return (
     <Pressable
       onPress={onPress}
-      className={`bg-light-secondary dark:bg-dark-secondary p-4 rounded-md ${className}`}
+      className={`bg-light-secondary dark:bg-dark-secondary p-4 rounded-md active:opacity-80 ${className}`}
     >
       <ThemedText type="h2" className="text-center">
         {children}

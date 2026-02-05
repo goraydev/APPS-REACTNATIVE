@@ -23,7 +23,7 @@ export default function MenuItem({
 
   return (
     <Pressable
-      className="bg-gray-200 dark:bg-black/20 p-2"
+      className="bg-gray-200 dark:bg-black p-2"
       onPress={() => router.push(route)}
       style={{
         borderTopLeftRadius: isFirst ? 10 : 0,
