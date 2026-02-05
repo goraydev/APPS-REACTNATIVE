@@ -34,6 +34,7 @@ export default function ThemedView({
         },
         style,
       ]}
+      className={className}
     >
       {children}
     </View>
