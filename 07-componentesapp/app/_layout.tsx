@@ -8,6 +8,8 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { Stack } from "expo-router";
+import * as SystemUI from "expo-system-ui";
+import { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "react-native-reanimated";
 import "../global.css";
@@ -18,6 +20,10 @@ export default function RootLayout() {
     { light: Colors.light.background, dark: Colors.dark.background },
     "background",
   );
+
+  useEffect(() => {
+    SystemUI.setBackgroundColorAsync("transparent");
+  }, []);
 
   return (
     <GestureHandlerRootView

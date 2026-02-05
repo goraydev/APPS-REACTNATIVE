@@ -104,13 +104,13 @@ const TextInputsScreen = () => {
         </ThemedCard>
       </ScrollView>
 
-      <View className="w-full bg-light-primary dark:bg-dark-primary/50 p-4 rounded-xl">
+      <ThemedCard className="w-full bg-light-primary dark:bg-dark-primary/50 p-4 rounded-xl">
         <ThemedTextnput
           onChangeText={(text) => setForm({ ...form, phone: text })}
           placeHolder="Celular"
           keyboardType="phone-pad"
         />
-      </View>
+      </ThemedCard>
     </KeyboardAvoidingView>
   );
 };

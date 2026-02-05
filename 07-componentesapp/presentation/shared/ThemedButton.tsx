@@ -8,11 +8,17 @@ interface Props extends PressableProps {
   className?: string;
 }
 
-export default function ThemedButton({ onPress, children, className }: Props) {
+export default function ThemedButton({
+  onPress,
+  children,
+  className,
+  ...rest
+}: Props) {
   return (
     <Pressable
       onPress={onPress}
       className={`bg-light-secondary dark:bg-dark-secondary p-4 rounded-md active:opacity-80 ${className}`}
+      {...rest}
     >
       <ThemedText type="h2" className="text-center">
         {children}
