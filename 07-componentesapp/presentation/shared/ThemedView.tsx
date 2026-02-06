@@ -19,6 +19,7 @@ export default function ThemedView({
   safe = false,
   bgColor,
   children,
+  ...rest
 }: Props) {
   const safeArea = useSafeAreaInsets();
   const backgroundColor = bgColor ?? useThemeColor({}, "background");
@@ -35,6 +36,7 @@ export default function ThemedView({
         style,
       ]}
       className={className}
+      {...rest}
     >
       {children}
     </View>
