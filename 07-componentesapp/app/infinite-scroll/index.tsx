@@ -1,8 +1,9 @@
 import { Colors } from "@/constants/Colors";
+import FadeInImage from "@/presentation/images/FadeInImage";
 import ThemedText from "@/presentation/shared/ThemedText";
 import ThemedView from "@/presentation/shared/ThemedView";
 import { useState } from "react";
-import { ActivityIndicator, Image, View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 
 const InfiniteScrollScreen = () => {
@@ -12,13 +13,13 @@ const InfiniteScrollScreen = () => {
     const newArray = Array.from({ length: 5 }, (_, i) => numbers.length + i);
     setTimeout(() => {
       setnumbers([...numbers, ...newArray]);
-    }, 3000);
+    }, 1000);
   };
 
   return (
     <ThemedView padding>
       <ThemedText type="h1" className="text-center">
-        InfiniteScrollScreen
+        InfiniteScrollScreen usando FlatList
       </ThemedText>
       <FlatList
         data={numbers}
@@ -42,13 +43,11 @@ interface Props {
 
 export const ListItem = ({ number }: Props) => {
   return (
-    <Image
-      source={{ uri: `https://picsum.photos/id/${number}/500/400` }}
+    <FadeInImage
+      uri={`https://picsum.photos/id/${number}/500/400`}
       style={{
-        width: "100%",
         height: 400,
-        borderRadius: 10,
-        marginBottom: 10,
+        width: "100%",
       }}
     />
   );
