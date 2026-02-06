@@ -2,11 +2,7 @@ import { Colors } from "@/constants/Colors";
 import { allRoutes } from "@/constants/Routes";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { useThemeColor } from "@/hooks/use-theme-color";
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
+import { ThemeChangerProvider } from "@/presentation/context/ThemeChangeContext";
 import { Stack } from "expo-router";
 import * as SystemUI from "expo-system-ui";
 import { useEffect } from "react";
@@ -29,7 +25,8 @@ export default function RootLayout() {
     <GestureHandlerRootView
       style={{ flex: 1, backgroundColor: backgroundColor }}
     >
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <ThemeChangerProvider>
+        {/*     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}> */}
         <Stack>
           <Stack.Screen name="index" />
           {allRoutes.map((route) => (
@@ -42,7 +39,8 @@ export default function RootLayout() {
             />
           ))}
         </Stack>
-      </ThemeProvider>
+        {/* </ThemeProvider> */}
+      </ThemeChangerProvider>
     </GestureHandlerRootView>
   );
 }

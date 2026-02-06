@@ -1,3 +1,4 @@
+import { useThemeChangerContext } from "@/presentation/context/ThemeChangeContext";
 import ThemedCard from "@/presentation/shared/ThemedCard";
 import ThemedSwitch from "@/presentation/shared/ThemedSwitch";
 import ThemedText from "@/presentation/shared/ThemedText";
@@ -6,10 +7,13 @@ import { useColorScheme } from "nativewind";
 import { useEffect, useState } from "react";
 
 const ThemesScreen = () => {
-  const [textSwitch, setTextSwitch] = useState("");
-  const [stateMode, setStateMode] = useState(false);
-  const [themeSystem, setThemeSystem] = useState(false);
+  const { toggleTheme, currentTheme, setSystemTheme, isSystemTheme } =
+    useThemeChangerContext();
+
   const { colorScheme, setColorScheme, toggleColorScheme } = useColorScheme();
+  const [textSwitch, setTextSwitch] = useState("");
+  const [stateMode, setStateMode] = useState(currentTheme === "dark");
+  const [systemMode, setSystemMode] = useState(isSystemTheme);
 
   const onChangeTheme = () => {
     /* if (stateMode) {
@@ -20,12 +24,24 @@ const ThemesScreen = () => {
     setTextSwitch("Dark Mode"); */
   };
 
+  const setDarkMode = (value: boolean) => {
+    toggleTheme();
+    setStateMode(value);
+    setSystemMode(false);
+  };
+
+  const onChangeSystemMode = (value: boolean) => {
+    if (value) {
+      setSystemTheme();
+    }
+    setSystemMode(value);
+  };
+
   useEffect(() => {
     if (colorScheme === "light") {
-      setStateMode(false);
       return setTextSwitch("Light Mode");
     }
-    setStateMode(true);
+
     setTextSwitch("Dark Mode");
   }, [colorScheme]);
 
@@ -35,16 +51,14 @@ const ThemesScreen = () => {
         <ThemedSwitch
           text={textSwitch}
           value={stateMode}
-          onValueChange={toggleColorScheme}
+          onValueChange={setDarkMode}
         />
       </ThemedCard>
       <ThemedCard className="mt-4">
         <ThemedSwitch
           text="Color del sistema"
-          value={themeSystem}
-          onValueChange={(value) => {
-            setThemeSystem(value);
-          }}
+          value={systemMode}
+          onValueChange={onChangeSystemMode}
         />
       </ThemedCard>
       <ThemedText>Soy de Color según Native {colorScheme}</ThemedText>
