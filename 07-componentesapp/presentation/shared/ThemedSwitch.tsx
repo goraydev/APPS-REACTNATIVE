@@ -17,6 +17,7 @@ export default function ThemedSwitch({
   value,
   className,
   onValueChange,
+  ...rest
 }: Props) {
   return (
     <Pressable
@@ -29,6 +30,7 @@ export default function ThemedSwitch({
         onValueChange={onValueChange}
         thumbColor={isAndroid ? "blue" : "blue"}
         trackColor={{ false: "#767577", true: "#81b0ff" }}
+        {...rest}
       />
     </Pressable>
   );
