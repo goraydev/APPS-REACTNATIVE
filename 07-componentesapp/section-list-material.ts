@@ -3,7 +3,7 @@ interface Houses {
   data: string[];
 }
 
-const houses: Houses[] = [
+export const houses: Houses[] = [
   {
     title: "DC Comics",
     data: [
