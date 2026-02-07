@@ -1,6 +1,5 @@
 import { Colors } from "@/constants/Colors";
 import { allRoutes } from "@/constants/Routes";
-import { useColorScheme } from "@/hooks/use-color-scheme";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { ThemeChangerProvider } from "@/presentation/context/ThemeChangeContext";
 import { Stack } from "expo-router";
@@ -11,7 +10,6 @@ import "react-native-reanimated";
 import "../global.css";
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
   const backgroundColor = useThemeColor(
     { light: Colors.light.background, dark: Colors.dark.background },
     "background",

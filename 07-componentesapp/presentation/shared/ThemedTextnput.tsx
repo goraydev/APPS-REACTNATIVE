@@ -17,7 +17,7 @@ export default function ThemedTextnput({
     <TextInput
       onChangeText={onChangeText}
       placeholder={placeHolder}
-      className={`text-white bg-light-primary dark:bg-dark-primary rounded-md p-2 placeholder:text-gray-400 ${className}`}
+      className={`text-white ${className} bg-light-primary dark:bg-dark-primary rounded-md p-2 placeholder:text-gray-400`}
       {...rest}
     />
   );
