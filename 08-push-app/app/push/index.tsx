@@ -7,6 +7,9 @@ export default function PushNotificacion() {
 
   return (
     <View className="flex-1 px-4">
+      <View >
+        <Text className="text-2xl dark:text-white">{expoPushToken}</Text>
+      </View>
       <FlatList
         data={notifications}
         keyExtractor={(item) => item.request.identifier}
