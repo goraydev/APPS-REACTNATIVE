@@ -2,13 +2,10 @@ import { router } from 'expo-router';
 import { useColorScheme } from 'nativewind';
 import { useState } from 'react';
 import { Pressable, Switch, Text, View } from 'react-native';
-import * as Device from 'expo-device';
-import * as Notifications from 'expo-notifications';
-import Constants from 'expo-constants';
 
 export default function Home() {
-  const { toggleColorScheme } = useColorScheme();
-  const [stateTheme, setStateTheme] = useState<boolean>(false);
+  const { toggleColorScheme, colorScheme } = useColorScheme();
+  const [stateTheme, setStateTheme] = useState<boolean>(colorScheme === 'dark');
   return (
     <View className="mx-auto">
       <Text className="text-center text-2xl dark:text-gray-400">Clase de Push Notificacion</Text>
