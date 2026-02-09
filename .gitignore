@@ -1,0 +1,9 @@
+# Abre o crea .gitignore
+nano .gitignore
+```
+
+Agrega esta línea:
+```
+# Firebase credentials
+**/firebase-adminsdk-*.json
+*.json
