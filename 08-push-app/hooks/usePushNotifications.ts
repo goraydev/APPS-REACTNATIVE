@@ -69,7 +69,6 @@ async function registerForPushNotificationsAsync() {
     }
     const projectId =
       Constants?.expoConfig?.extra?.eas?.projectId ?? Constants?.easConfig?.projectId;
-
     if (!projectId) {
       handleRegistrationError('Project ID not found');
     }
@@ -88,8 +87,6 @@ async function registerForPushNotificationsAsync() {
     handleRegistrationError('Must use physical device for push notifications');
   }
 }
-
-
 
 export const usePushNotifications = () => {
   const [expoPushToken, setExpoPushToken] = useState('');

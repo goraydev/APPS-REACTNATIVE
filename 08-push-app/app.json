@@ -43,9 +43,7 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      },
-      "package": "com.goraydev.pushapp",
-      "googleServicesFile": "./google-services.json"
+      }
     },
     "extra": {
       "router": {},

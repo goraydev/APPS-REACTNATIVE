@@ -14,7 +14,7 @@ export default function PushNotificacion() {
         data={notifications}
         keyExtractor={(item) => item.request.identifier}
         renderItem={({ item }) => (
-          <View className="rounded-md bg-gray-900 px-4  py-10">
+          <View className="px-4 py-10 bg-gray-900  rounded-md">
             <Text className="text-2xl text-white">{item.request.content.title}</Text>
             <Text className="text-white">{item.request.content.body}</Text>
             <Text className="text-white">{JSON.stringify(item.request.content.data, null, 2)}</Text>
@@ -23,7 +23,7 @@ export default function PushNotificacion() {
         ItemSeparatorComponent={() => <View className="mt-2 opacity-50" />}
         ListEmptyComponent={() => (
           <View className="flex-1 items-center justify-center py-20">
-            <Text className="dark:text-white">No tienes notificaciones</Text>
+            <Text className="text-white">No tienes notificaciones</Text>
           </View>
         )}
       />
