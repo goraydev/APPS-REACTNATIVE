@@ -3,12 +3,15 @@ import '../global.css';
 import { Stack } from 'expo-router';
 import { useColorScheme } from 'nativewind';
 import { useEffect } from 'react';
-
+import { usePushNotifications } from '@/hooks/usePushNotifications';
 
 export default function Layout() {
   const { colorScheme, setColorScheme } = useColorScheme();
+  usePushNotifications();
 
-  
+  useEffect(() => {
+    setColorScheme('system');
+  }, []);
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>

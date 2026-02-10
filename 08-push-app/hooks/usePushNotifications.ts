@@ -3,6 +3,7 @@ import { Platform } from 'react-native';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
+import { router, useRootNavigationState } from 'expo-router';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -91,6 +92,43 @@ async function registerForPushNotificationsAsync() {
 export const usePushNotifications = () => {
   const [expoPushToken, setExpoPushToken] = useState('');
   const [notifications, setNotifications] = useState<Notifications.Notification[]>([]);
+  const [pendingNotification, setPendingNotification] = useState<string | null>('');
+  const rootNavigationState = useRootNavigationState();
+
+  useEffect(() => {
+    function redirect(notification: Notifications.Notification) {
+      const url = notification.request.content.data?.url;
+      if (typeof url === 'string') {
+        router.push(url as any);
+      }
+    }
+
+    const response = Notifications.getLastNotificationResponse();
+    if (response?.notification) {
+      redirect(response.notification);
+    }
+
+    const subscription = Notifications.addNotificationResponseReceivedListener((response) => {
+      redirect(response.notification);
+    });
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
+
+  useEffect(() => {
+    const checkInitialNotification = async () => {
+      const response = await Notifications.getLastNotificationResponse();
+
+      if (response?.notification?.request?.content?.data?.chatId) {
+        const { chatId } = response.notification.request.content.data;
+
+        router.push(`/chat/${chatId}`);
+      }
+    };
+    checkInitialNotification();
+  }, []);
 
   useEffect(() => {
     registerForPushNotificationsAsync()
@@ -104,16 +142,41 @@ export const usePushNotifications = () => {
     });
 
     const responseListener = Notifications.addNotificationResponseReceivedListener((response) => {
-      console.log(response);
+      console.log(response.notification.request.content);
+      const chatId = response.notification.request.content.data?.chatId;
+
+      if (typeof chatId === 'string' && chatId.length > 0) {
+        setPendingNotification(chatId);
+      }
+
+      /* if (chatId) {
+        router.push(`/chat/${chatId}`);
+      } */
     });
 
     //Implementar la funcion cuando la app esta culminada o cerrada
+    const handleInitialNotification = () => {
+      const response = Notifications.getLastNotificationResponse();
+      const chatId = response?.notification?.request?.content?.data?.chatId;
+      if (typeof chatId === 'string' && chatId.length > 0) {
+        setPendingNotification(chatId);
+      }
+    };
+    handleInitialNotification();
 
     return () => {
       notificationListener.remove();
       responseListener.remove();
     };
   }, []);
+
+  useEffect(() => {
+    if (!rootNavigationState.key) return;
+    if (!pendingNotification) return;
+
+    router.push(`/chat/${pendingNotification}`);
+    setPendingNotification(null);
+  }, [pendingNotification, rootNavigationState?.key]);
 
   return {
     //props
