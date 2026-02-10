@@ -23,7 +23,7 @@ export default function PushNotificacion() {
         ItemSeparatorComponent={() => <View className="mt-2 opacity-50" />}
         ListEmptyComponent={() => (
           <View className="flex-1 items-center justify-center py-20">
-            <Text className="dark:text-white">No tienes nada de notificaciones</Text>
+            <Text className="dark:text-white">No tienes notificaciones</Text>
           </View>
         )}
       />
