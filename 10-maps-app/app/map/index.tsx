@@ -31,7 +31,7 @@ export default function MapScreen() {
 
   useEffect(() => {
     navigation.setOptions({
-      title: "Google Mapas",
+      title: "Google Mapa",
     });
   }, []);
 

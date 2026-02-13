@@ -63,6 +63,7 @@ export default function CustomMap({
     <View {...rest}>
       <MapView
         ref={mapRef}
+        zoomControlEnabled
         onTouchStart={() => setIsFolloWingUser(false)}
         style={styles.map}
         provider={PROVIDER_GOOGLE}
@@ -78,6 +79,7 @@ export default function CustomMap({
           <Polyline coordinates={userLocationList} strokeColor="green" />
         )}
       </MapView>
+
       <FAB
         onPress={() => setIsShowPath(!isShowPath)}
         iconName={isShowPath ? "trending-up" : "analytics"}
