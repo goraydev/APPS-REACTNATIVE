@@ -12,11 +12,7 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <PermissionCheckedProvider>
-        <Stack
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
+        <Stack>
           <Stack.Screen name="loading/index" />
           <Stack.Screen
             name="map/index"

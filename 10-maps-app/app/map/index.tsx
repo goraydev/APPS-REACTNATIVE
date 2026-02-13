@@ -1,13 +1,15 @@
-import { useFocusEffect } from "expo-router";
-import React, { useCallback } from "react";
+import { useFocusEffect, useNavigation } from "expo-router";
+import React, { useCallback, useEffect } from "react";
 import { BackHandler, StyleSheet, View } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 
 export default function MapScreen() {
+  const navigation = useNavigation();
+
   useFocusEffect(
     useCallback(() => {
       const onBackPress = () => {
-        return true; // Prevenir retroceso
+        return true;
       };
 
       const subscription = BackHandler.addEventListener(
@@ -18,6 +20,13 @@ export default function MapScreen() {
       return () => subscription.remove();
     }, []),
   );
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: "Google Mapa",
+    });
+  }, []);
+
   return (
     <View style={styles.container}>
       <MapView
