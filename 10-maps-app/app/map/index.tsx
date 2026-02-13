@@ -1,10 +1,18 @@
+import CustomMap from "@/presentation/components/maps/CustomMap";
+import { useLocationStore } from "@/presentation/store/useLocation";
 import { useFocusEffect, useNavigation } from "expo-router";
 import React, { useCallback, useEffect } from "react";
-import { BackHandler, StyleSheet, View } from "react-native";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import { ActivityIndicator, BackHandler, StyleSheet, View } from "react-native";
 
 export default function MapScreen() {
   const navigation = useNavigation();
+  const { lastKnowLocation, getLocation } = useLocationStore();
+
+  useEffect(() => {
+    if (lastKnowLocation === null) {
+      getLocation();
+    }
+  }, []);
 
   useFocusEffect(
     useCallback(() => {
@@ -23,23 +31,22 @@ export default function MapScreen() {
 
   useEffect(() => {
     navigation.setOptions({
-      title: "Google Mapa",
+      title: "Google Mapas",
     });
   }, []);
 
+  if (lastKnowLocation === null) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size={30} color="blue" />
+      </View>
+    );
+  }
+
   return (
-    <View style={styles.container}>
-      <MapView
-        style={styles.map}
-        provider={PROVIDER_GOOGLE}
-        region={{
-          latitude: -9.5278,
-          longitude: -77.5278,
-          latitudeDelta: 0.015,
-          longitudeDelta: 0.0121,
-        }}
-      />
-    </View>
+    <>
+      <CustomMap initialLocation={lastKnowLocation} />
+    </>
   );
 }
 
