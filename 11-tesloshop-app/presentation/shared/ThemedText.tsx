@@ -16,7 +16,7 @@ export default function ThemedText({
   return (
     <Text
       className={[
-        `text-gray-900 dark:text-gray-200`,
+        `text-black dark:text-gray-200`,
         type === "normal" ? "text-base" : "",
         type === "h1" ? "text-3xl" : "",
         type === "h2" ? "text-xl" : "",

@@ -8,7 +8,13 @@ module.exports = {
   ],
   presets: [require("nativewind/preset")],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        "kanit-bold": ["kanit-bold", "sans-serif"],
+        "kanit-regular": ["kanit-regular", "sans-serif"],
+        "kanit-thin": ["kanit-thin", "sans-serif"],
+      },
+    },
   },
   plugins: [],
 };
