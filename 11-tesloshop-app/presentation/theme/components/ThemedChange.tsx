@@ -10,16 +10,21 @@ import { useThemeStore } from "../store/useThemeStore";
 
 export default function ThemedChange({ children }: PropsWithChildren) {
   const { colorScheme, setColorScheme } = useColorScheme();
-  const { toggleTheme } = useThemeStore();
+  const { toggleTheme, theme } = useThemeStore();
 
   useEffect(() => {
-    console.log(colorScheme);
     AsyncStorage.getItem("select-theme").then((theme) => {
       if (!theme) return;
-      setColorScheme(theme as "dark" | "light" | "system");
-      toggleTheme(theme as "dark" | "light" | "system");
+      const themeValue = theme as "dark" | "light" | "system";
+      setColorScheme(themeValue);
+      toggleTheme(themeValue);
     });
   }, []);
+
+  useEffect(() => {
+    setColorScheme(theme);
+    AsyncStorage.setItem("select-theme", theme); // Guardar también
+  }, [theme]);
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
