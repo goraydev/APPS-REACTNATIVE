@@ -16,10 +16,10 @@ export default function ThemedText({
   return (
     <Text
       className={[
-        `text-black dark:text-gray-200`,
+        `text-black dark:text-gray-200 font-kanit-regular`,
         type === "normal" ? "text-base" : "",
         type === "h1" ? "text-3xl" : "",
-        type === "h2" ? "text-xl" : "",
+        type === "h2" ? "text-xl font-kanit-regular" : "",
         type === "semibold" ? "font-semibold" : "",
         type === "link" ? "underline" : "",
         className,
