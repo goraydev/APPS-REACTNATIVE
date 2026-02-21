@@ -9,7 +9,7 @@ import {
   Alert,
   KeyboardAvoidingView,
   useWindowDimensions,
-  View
+  View,
 } from "react-native";
 
 export default function LoginScreen() {
@@ -23,10 +23,6 @@ export default function LoginScreen() {
   const handleSubmit = () => {
     if (form.email === "" || form.password === "") {
       return Alert.alert("Error", "Los campos no pueden estar vacios", [
-        {
-          text: "Cancel",
-          style: "cancel",
-        },
         { text: "OK" },
       ]);
     }
