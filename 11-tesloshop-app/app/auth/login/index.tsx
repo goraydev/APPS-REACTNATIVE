@@ -1,9 +1,10 @@
+import { useAuthStore } from "@/presentation/auth/store/useAuthStore";
 import ThemedButton from "@/presentation/shared/ThemedButton";
 import ThemedText from "@/presentation/shared/ThemedText";
 import ThemedTextInput from "@/presentation/shared/ThemedTextInput";
 import ThemedView from "@/presentation/shared/ThemedView";
 import ThemedSwitch from "@/presentation/theme/components/ThemedSwitch";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { useState } from "react";
 import {
   Alert,
@@ -13,22 +14,30 @@ import {
 } from "react-native";
 
 export default function LoginScreen() {
+  const [isPost, setIsPost] = useState(false);
   const { height } = useWindowDimensions();
   const [form, setForm] = useState({ email: "", password: "" });
+  const { login } = useAuthStore();
 
-  const messageEmpty = () => {
-    console.log("ok");
-  };
-
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (form.email === "" || form.password === "") {
       return Alert.alert("Error", "Los campos no pueden estar vacios", [
         { text: "OK" },
       ]);
     }
 
-    //Enviar para autenticar
-    console.log(form);
+    //Enviar datos al servidor para autenticar
+    setIsPost(true);
+    const wasSucessful = await login(form.email, form.password);
+    setIsPost(false);
+
+    if (wasSucessful) {
+      router.replace("/home");
+      setForm({ email: "", password: "" });
+      return;
+    }
+
+    Alert.alert("Error", "Usuario o contraseña incorrectos", [{ text: "OK" }]);
   };
 
   return (
@@ -55,6 +64,7 @@ export default function LoginScreen() {
           <ThemedButton
             text="Iniciar Sesión"
             onPress={handleSubmit}
+            disabled={isPost}
             icon="arrow-forward-outline"
           />
         </View>

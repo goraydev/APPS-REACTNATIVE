@@ -6,6 +6,7 @@ import {
 } from "@react-navigation/native";
 import { useColorScheme } from "nativewind";
 import { PropsWithChildren, useEffect } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useThemeStore } from "../store/useThemeStore";
 
 export default function ThemedChange({ children }: PropsWithChildren) {
@@ -27,8 +28,12 @@ export default function ThemedChange({ children }: PropsWithChildren) {
   }, [theme]);
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      {children}
-    </ThemeProvider>
+    <GestureHandlerRootView
+      style={{ flex: 1, backgroundColor: theme === "dark" ? "black" : "white" }}
+    >
+      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+        {children}
+      </ThemeProvider>
+    </GestureHandlerRootView>
   );
 }

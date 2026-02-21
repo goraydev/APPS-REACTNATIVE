@@ -17,6 +17,9 @@ export default function RegisterScreen() {
       ]);
     }
     console.log(form);
+    //enviar los datos al servidor
+
+    //limpiar el formulario
   };
 
   return (
@@ -54,7 +57,7 @@ export default function RegisterScreen() {
       <View className="flex-row items-center justify-center gap-2 mt-4">
         <ThemedText type="h2">¿Ya tienes cuenta?</ThemedText>
         <Link href={"/auth/login"} className="text-blue-500 text-xl">
-          Inicia sesión
+          Registrarse
         </Link>
       </View>
     </ThemedView>

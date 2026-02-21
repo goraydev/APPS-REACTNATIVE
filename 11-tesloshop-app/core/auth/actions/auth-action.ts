@@ -33,8 +33,8 @@ export const authLogin = async (email: string, password: string) => {
     });
     return returnUserToken(data);
   } catch (error) {
-    console.error(error);
-    //    throw new Error("Usuario o contraseña incorrectos");
+    //console.error(error);
+    //throw new Error("Usuario o contraseña incorrectos");
     return null;
   }
 };
@@ -44,7 +44,7 @@ export const authCheckAuthStatus = async () => {
     const { data } = await productsApi.get<AuthResponse>("/auth/check-status");
     return returnUserToken(data);
   } catch (error) {
-    console.error(error);
+    //console.error(error);
     return null;
   }
 };
@@ -62,7 +62,7 @@ export const authRegister = async (
     });
     return returnUserToken(data);
   } catch (error) {
-    console.error(error);
+    //    console.error(error);
     throw new Error("Error al registrar nuevo usuario");
   }
 };
