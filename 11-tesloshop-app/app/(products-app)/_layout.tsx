@@ -19,7 +19,11 @@ export default function CheckAuthenticationLayout() {
   }
 
   return (
-    <Stack>
+    <Stack
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       <Stack.Screen
         name="home/index"
         options={{

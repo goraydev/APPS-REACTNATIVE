@@ -51,6 +51,7 @@ export default function LoginScreen() {
           <ThemedTextInput
             placeholder="Email"
             value={form.email}
+            keyboardType="email-address"
             onChangeText={(text) => setForm({ ...form, email: text })}
             icon="mail-outline"
           />

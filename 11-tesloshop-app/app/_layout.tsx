@@ -23,7 +23,7 @@ export default function RootLayout() {
   }
   return (
     <ThemedChange>
-      <Stack>
+      <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="/home" />
       </Stack>
     </ThemedChange>
