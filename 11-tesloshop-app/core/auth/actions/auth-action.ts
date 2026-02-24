@@ -1,3 +1,4 @@
+import axios from "axios";
 import { productsApi } from "../api/productsApi";
 
 export interface AuthResponse {
@@ -62,7 +63,12 @@ export const authRegister = async (
     });
     return returnUserToken(data);
   } catch (error) {
-    //    console.error(error);
-    throw new Error("Error al registrar nuevo usuario");
+    //throw new Error("Error al registrar nuevo usuario");
+    if (axios.isAxiosError(error)) {
+      const message = error.response?.data?.message.includes("email")
+        ? error.response.data.message
+        : error.response?.data.message[0];
+      return message;
+    }
   }
 };
