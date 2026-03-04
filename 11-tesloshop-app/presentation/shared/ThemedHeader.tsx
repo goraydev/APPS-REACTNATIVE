@@ -13,7 +13,8 @@ interface Props {
 export default function ThemedHeader({ title }: Props) {
   const areaSure = useSafeAreaInsets();
   const { theme } = useThemeStore();
-  const { logout } = useAuthStore();
+  const { logout, user } = useAuthStore();
+  console.log(user);
 
   return (
     <View
@@ -28,7 +29,9 @@ export default function ThemedHeader({ title }: Props) {
               console.log("usuarioo");
             }}
           >
-            <ThemedText>User</ThemedText>
+            <ThemedText className="font-kanit-bold">
+              {user?.fullName}
+            </ThemedText>
           </Pressable>
           <Pressable className="flex-row gap-2 items-center" onPress={logout}>
             <ThemedText>Salir</ThemedText>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { productsApi } from "../api/productsApi";
+import { productsApi } from "../../api/productsApi";
 
 export interface AuthResponse {
   id: string;

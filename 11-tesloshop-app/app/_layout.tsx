@@ -1,10 +1,19 @@
 import ThemedChange from "@/presentation/theme/components/ThemedChange";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SystemUI from "expo-system-ui";
 import { Platform } from "react-native";
 import "react-native-reanimated";
 import "../global.css";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+    },
+  },
+});
 
 const isAndroid = Platform.OS === "android";
 if (isAndroid) {
@@ -22,10 +31,12 @@ export default function RootLayout() {
     return null;
   }
   return (
-    <ThemedChange>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="/home" />
-      </Stack>
-    </ThemedChange>
+    <QueryClientProvider client={queryClient}>
+      <ThemedChange>
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="/home" />
+        </Stack>
+      </ThemedChange>
+    </QueryClientProvider>
   );
 }

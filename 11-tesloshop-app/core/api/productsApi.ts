@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Platform } from "react-native";
-import { SecureStorageAdapter } from "../../../helpers/adapters/secure-storage";
+import { SecureStorageAdapter } from "../../helpers/adapters/secure-storage";
 
 const STAGE = process.env.EXPO_PUBLIC_STAGE || "dev";
 export const API_URL =
@@ -27,4 +27,3 @@ productsApi.interceptors.request.use(async (config) => {
 });
 
 export { productsApi };
-
