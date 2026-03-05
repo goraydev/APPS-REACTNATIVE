@@ -1,5 +1,4 @@
 import ThemedText from "@/presentation/shared/ThemedText";
-import React from "react";
 import { TouchableOpacity, View } from "react-native";
 
 interface Props {
@@ -19,13 +18,14 @@ export default function ThemedButtonGroup({
         <TouchableOpacity
           key={option}
           onPress={() => onSelect(option)}
-          className="flex-1 p-4 rounded-md items-center justify-center bg-blue-500 active:bg-blue-700"
+          className="flex-1 p-4 rounded-md items-center justify-center bg-blue-500"
+          style={[
+            selectedOptions.includes(option) && {
+              backgroundColor: "#154579",
+            },
+          ]}
         >
-          <ThemedText
-            adjustsFontSizeToFit
-            numberOfLines={1}
-            className="text-white"
-          >
+          <ThemedText adjustsFontSizeToFit numberOfLines={1}>
             {option}
           </ThemedText>
         </TouchableOpacity>
