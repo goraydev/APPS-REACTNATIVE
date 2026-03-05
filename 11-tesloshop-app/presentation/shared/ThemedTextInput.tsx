@@ -9,6 +9,7 @@ interface Props extends TextInputProps {
   value: string;
   onChangeText: (text: string) => void;
   icon?: keyof typeof Ionicons.glyphMap;
+  className?: string;
 }
 
 export default function ThemedTextInput({
@@ -18,6 +19,7 @@ export default function ThemedTextInput({
   placeholder,
   keyboardType,
   autoCapitalize,
+  className,
   ...rest
 }: Props) {
   const [isActive, setIsActive] = useState(false);
@@ -25,7 +27,7 @@ export default function ThemedTextInput({
 
   return (
     <View
-      className={`flex flex-row items-center gap-4 border-x-2 border-y-2 p-2 rounded-md ${isActive ? "border-blue-600" : "border-blue-400"}`}
+      className={`${className} flex flex-row items-center gap-4 border-x-2 border-y-2 p-2 rounded-md ${isActive ? "border-blue-600" : "border-blue-400"}`}
       onTouchStart={() => inputRef.current?.focus()}
     >
       <Ionicons name={icon} size={24} color="gray" />

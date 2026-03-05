@@ -1,7 +1,7 @@
+import ProductList from "@/presentation/products/components/ProductList";
 import { useProducts } from "@/presentation/products/hooks/useProducts";
 import ThemedActivity from "@/presentation/shared/ThemedActivity";
 import ThemedHeader from "@/presentation/shared/ThemedHeader";
-import ThemedText from "@/presentation/shared/ThemedText";
 import ThemedView from "@/presentation/shared/ThemedView";
 import React from "react";
 
@@ -16,7 +16,10 @@ export default function HomeScreen() {
     <>
       <ThemedHeader title="Productos" />
       <ThemedView padding>
-        <ThemedText>Hola</ThemedText>
+        <ProductList
+          products={productsQuery.data?.pages.flatMap((page) => page) ?? []}
+          loadNextPage={loadNextPage}
+        />
       </ThemedView>
     </>
   );

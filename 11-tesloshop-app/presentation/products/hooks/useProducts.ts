@@ -13,10 +13,15 @@ export const useProducts = () => {
 
   const productQueryById = (id: string) => {
     useQuery({
-      queryKey: ["product", "byId"],
+      queryKey: ["product", id],
       queryFn: () => getProductById(id),
+      staleTime: 1000 * 60 * 60,
     });
   };
+
+  //mutacion
+
+  //
 
   return {
     productsQuery,

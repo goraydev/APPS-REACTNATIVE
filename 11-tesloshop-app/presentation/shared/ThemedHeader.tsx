@@ -14,7 +14,6 @@ export default function ThemedHeader({ title }: Props) {
   const areaSure = useSafeAreaInsets();
   const { theme } = useThemeStore();
   const { logout, user } = useAuthStore();
-  console.log(user);
 
   return (
     <View
