@@ -19,9 +19,13 @@ export default function ThemedButtonGroup({
         <TouchableOpacity
           key={option}
           onPress={() => onSelect(option)}
-          className="flex-1 p-4 rounded-md items-center justify-center bg-blue-800 active:bg-blue-700"
+          className="flex-1 p-4 rounded-md items-center justify-center bg-blue-500 active:bg-blue-700"
         >
-          <ThemedText adjustsFontSizeToFit numberOfLines={1}>
+          <ThemedText
+            adjustsFontSizeToFit
+            numberOfLines={1}
+            className="text-white"
+          >
             {option}
           </ThemedText>
         </TouchableOpacity>

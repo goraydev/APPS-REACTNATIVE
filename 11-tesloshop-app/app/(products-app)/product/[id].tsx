@@ -41,7 +41,7 @@ export default function ProductoByIdScreen() {
   return (
     <>
       <ThemedHeader title={productQueryById.data?.title ?? ""} />
-      <KeyboardAvoidingView style={{ flex: 1 }}>
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
         <ThemedView scroll>
           <ProductsImages images={productQueryById.data?.images} />
           <ThemedView padding>
