@@ -32,6 +32,7 @@ export default function ProductoByIdScreen() {
   }
 
   const productData = productQueryById.data;
+
   return (
     <>
       <ThemedHeader title={productQueryById.data?.title ?? ""} />
@@ -96,7 +97,7 @@ export default function ProductoByIdScreen() {
                 </View>
                 <View>
                   <ThemedButtonGroup
-                    options={["Masculino", "Femenino", "Niños", "Unisex"]}
+                    options={["kid", "men", "women", "unisex"]}
                     selectedOptions={[values.gender]}
                     onSelect={(option) => setFieldValue("gender", option)}
                   />
@@ -104,7 +105,7 @@ export default function ProductoByIdScreen() {
                 <View className="mb-10">
                   <ThemedButton
                     text="Guardar"
-                    onPress={handleSubmit}
+                    onPress={() => handleSubmit()}
                     icon="save-outline"
                   />
                 </View>

@@ -11,16 +11,19 @@ interface Props {
 export const ProductCard = ({ product }: Props) => {
   return (
     <ThemedView>
-      <TouchableOpacity onPress={() => router.push(`/product/${product.id}`)}>
+      <TouchableOpacity
+        onPress={() => router.push(`/product/${product.id}`)}
+        className="mb-2 mr-2"
+      >
         {product.images.length === 0 ? (
           <Image
             source={require("../../../assets/images/no-product-image.png")}
-            style={{ width: "100%", height: 200 }}
+            style={{ width: "100%", height: 200, borderRadius: 10 }}
           />
         ) : (
           <Image
             source={{ uri: product.images[0] }}
-            style={{ flex: 1, height: 200, width: "100%" }}
+            style={{ flex: 1, height: 200, width: "100%", borderRadius: 10 }}
           />
         )}
 
