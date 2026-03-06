@@ -2,6 +2,7 @@ import updateCreateProduct from "@/core/products/actions/create-update-product.a
 import { getProductById } from "@/core/products/actions/get-product-by-id.action";
 import { Product } from "@/core/products/interfaces/product.interfaces";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { router } from "expo-router";
 import { useRef } from "react";
 import { Alert } from "react-native";
 
@@ -33,6 +34,9 @@ export default function useProduct(productId: string) {
         queryKey: ["product", data.id],
       });
       Alert.alert("Producto guardado", `${data.title} guardado exitosamente`);
+      setTimeout(() => {
+        router.back();
+      }, 1000);
     },
   });
 

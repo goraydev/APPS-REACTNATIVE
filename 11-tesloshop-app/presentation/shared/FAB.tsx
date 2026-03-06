@@ -12,7 +12,7 @@ export default function FAB({ icon, onPress }: Props) {
   const { theme } = useThemeStore();
   return (
     <Pressable
-      className="absolute right-10 bottom-14 bg-blue-500 rounded-xl w-12 h-12 items-center justify-center"
+      className="absolute right-10 bottom-14 bg-blue-500 rounded-xl w-16 h-16 items-center justify-center"
       onPress={onPress}
     >
       <Ionicons

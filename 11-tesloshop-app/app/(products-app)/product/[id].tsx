@@ -27,7 +27,9 @@ export default function ProductoByIdScreen() {
 
   return (
     <>
-      <ThemedHeader title={productQueryById.data?.title ?? ""} />
+      <ThemedHeader
+        title={id === "new" ? "Crear Nuevo Producto" : productData?.title}
+      />
       <Formik
         initialValues={productData}
         onSubmit={(productLike) => {
