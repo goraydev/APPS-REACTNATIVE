@@ -9,7 +9,7 @@ export interface Product {
   gender: Gender;
   tags: string[];
   images: string[];
-  user: User;
+  user?: User;
 }
 
 export enum Gender {
@@ -37,10 +37,10 @@ export enum Tag {
 
 export interface User {
   id: string;
-  email: Email;
-  fullName: FullName;
+  email: string;
+  fullName: string;
   isActive: boolean;
-  roles: Role[];
+  roles: string[];
 }
 
 export enum Email {

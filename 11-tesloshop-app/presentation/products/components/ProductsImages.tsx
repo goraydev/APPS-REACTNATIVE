@@ -8,7 +8,7 @@ interface Props {
 export default function ProductsImages({ images }: Props) {
   if (images.length === 0) {
     return (
-      <View>
+      <View className="flex-1 justify-center items-center">
         <Image
           source={require("../../../assets/images/no-product-image.png")}
           style={{ width: 300, height: 300 }}

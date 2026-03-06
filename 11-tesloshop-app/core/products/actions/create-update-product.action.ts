@@ -14,8 +14,12 @@ const updateProduct = async (product: Partial<Product>) => {
 };
 
 const createProduct = async (product: Partial<Product>) => {
+  const { id, images = [], user, ...rest } = product;
   try {
-    const { data } = await productsApi.post(`/products`, product);
+    const { data } = await productsApi.post<Product>(`/products`, {
+      ...rest,
+    });
+
     return data;
   } catch (error) {
     throw new Error("Error al crear producto");

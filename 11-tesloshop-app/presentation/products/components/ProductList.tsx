@@ -34,6 +34,7 @@ export default function ProductList({ products, loadNextPage }: Props) {
       refreshControl={
         <RefreshControl refreshing={isRefreshing} onRefresh={onPullToRefresh} />
       }
+      className="mb-10"
     />
   );
 }

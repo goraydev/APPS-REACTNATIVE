@@ -9,20 +9,12 @@ import ThemedView from "@/presentation/shared/ThemedView";
 import ThemedButtonGroup from "@/presentation/theme/components/ThemedButtonGroup";
 import { useLocalSearchParams } from "expo-router";
 import { Formik } from "formik";
-import React, { useState } from "react";
+import React from "react";
 import { KeyboardAvoidingView, View } from "react-native";
 
 export default function ProductoByIdScreen() {
   const { id } = useLocalSearchParams();
   const { productQueryById, productMutation } = useProduct(id.toString());
-
-  const [product, setProduct] = useState({
-    title: "",
-    slug: "",
-    description: "",
-    price: "",
-    stock: "",
-  });
 
   if (productQueryById.isLoading) {
     return <ThemedActivity />;
@@ -31,7 +23,7 @@ export default function ProductoByIdScreen() {
     return <ThemedActivity />;
   }
 
-  const productData = productQueryById.data;
+  const productData = productQueryById.data!;
 
   return (
     <>
