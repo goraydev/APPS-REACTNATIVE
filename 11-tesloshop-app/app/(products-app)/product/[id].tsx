@@ -1,13 +1,14 @@
 import { Size } from "@/core/products/interfaces/product.interfaces";
 import ProductsImages from "@/presentation/products/components/ProductsImages";
 import useProduct from "@/presentation/products/hooks/useProduct";
+import FAB from "@/presentation/shared/FAB";
 import ThemedActivity from "@/presentation/shared/ThemedActivity";
 import ThemedButton from "@/presentation/shared/ThemedButton";
 import ThemedHeader from "@/presentation/shared/ThemedHeader";
 import ThemedTextInput from "@/presentation/shared/ThemedTextInput";
 import ThemedView from "@/presentation/shared/ThemedView";
 import ThemedButtonGroup from "@/presentation/theme/components/ThemedButtonGroup";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { Formik } from "formik";
 import React from "react";
 import { KeyboardAvoidingView, View } from "react-native";
@@ -108,6 +109,11 @@ export default function ProductoByIdScreen() {
           </KeyboardAvoidingView>
         )}
       </Formik>
+      <FAB
+        icon="camera"
+        onPress={() => router.push("/camera")}
+        className="bg-blue-950"
+      />
     </>
   );
 }

@@ -6,20 +6,17 @@ import { useThemeStore } from "../theme/store/useThemeStore";
 interface Props {
   icon: keyof typeof Ionicons.glyphMap;
   onPress?: () => void;
+  className?: string;
 }
 
-export default function FAB({ icon, onPress }: Props) {
+export default function FAB({ icon, onPress, className }: Props) {
   const { theme } = useThemeStore();
   return (
     <Pressable
-      className="absolute right-10 bottom-14 bg-blue-500 rounded-xl w-16 h-16 items-center justify-center"
+      className={`${className} absolute right-10 bottom-14 bg-blue-500 rounded-xl w-16 h-16 items-center justify-center`}
       onPress={onPress}
     >
-      <Ionicons
-        name={icon}
-        size={30}
-        color={theme === "dark" ? "white" : "black"}
-      />
+      <Ionicons name={icon} size={30} color="white" />
     </Pressable>
   );
 }
