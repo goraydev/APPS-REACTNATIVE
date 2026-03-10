@@ -33,9 +33,7 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemedChange>
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="/home" />
-        </Stack>
+        <Stack screenOptions={{ headerShown: false }} />
       </ThemedChange>
     </QueryClientProvider>
   );

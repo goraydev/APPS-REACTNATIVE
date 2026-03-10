@@ -5,28 +5,53 @@ import ThemedText from "@/presentation/shared/ThemedText";
 import ThemedView from "@/presentation/shared/ThemedView";
 import { Ionicons } from "@expo/vector-icons";
 import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
+import * as MediaLibrary from "expo-media-library";
 import { router } from "expo-router";
 import React, { useRef, useState } from "react";
+
 import {
-    Image,
-    StyleSheet,
-    TouchableOpacity,
-    useWindowDimensions,
-    View,
+  Alert,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
 } from "react-native";
 
 export default function CameraScreen() {
   const [facing, setFacing] = useState<CameraType>("back");
-  const [permission, requestPermission] = useCameraPermissions();
+  const [cameraPermission, requestCameraPermission] = useCameraPermissions();
   const cameraRef = useRef<CameraView>(null);
   const [selectedImage, setSelectedImage] = useState<string>();
+  const [mediaPermission, mediaRequestPermission] =
+    MediaLibrary.usePermissions();
 
-  if (!permission) {
+  const onRequestPermission = async () => {
+    try {
+      const { status: cameraPermissionStatus } =
+        await requestCameraPermission();
+      if (cameraPermissionStatus !== "granted") {
+        Alert.alert("Error", "Necesitamos permisos para acceder a la cámara");
+        return;
+      }
+
+      const { status: mediaPermissionStatus } = await mediaRequestPermission();
+      if (mediaPermissionStatus !== "granted") {
+        Alert.alert("Error", "Necesitamos permisos para acceder a tu galería");
+        return;
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Error", "Algo salió mal");
+    }
+  };
+
+  if (!cameraPermission) {
     // Camera permissions are still loading.
     return <ThemedActivity />;
   }
 
-  if (!permission.granted) {
+  if (!cameraPermission.granted) {
     // Camera permissions are not granted yet.
     return (
       <>
@@ -35,7 +60,7 @@ export default function CameraScreen() {
           <ThemedText className="mb-4">
             Necesitamos tus permisos para usar la cámara
           </ThemedText>
-          <ThemedButton onPress={requestPermission} text="Dar Permisos" />
+          <ThemedButton onPress={onRequestPermission} text="Dar Permisos" />
         </ThemedView>
       </>
     );
@@ -57,8 +82,10 @@ export default function CameraScreen() {
   const onReturnCancel = () => {
     router.dismiss();
   };
-  const onPicturaAccepted = () => {
-    console.log("implementar acción");
+  const onPictureAccepted = async () => {
+    if (!selectedImage) return;
+    await MediaLibrary.createAssetAsync(selectedImage);
+    router.dismiss();
   };
 
   const onRetakeImage = () => {
@@ -74,7 +101,7 @@ export default function CameraScreen() {
       <View style={styles.container}>
         <ReturnCancelButton onPress={onReturnCancel} />
         <Image source={{ uri: selectedImage }} style={styles.camera} />
-        <ConfirmImageButton />
+        <ConfirmImageButton onPress={onPictureAccepted} />
         <RetakeImageButton onPress={onRetakeImage} />
       </View>
     );
