@@ -7,13 +7,15 @@ import ThemedButton from "@/presentation/shared/ThemedButton";
 import ThemedHeader from "@/presentation/shared/ThemedHeader";
 import ThemedTextInput from "@/presentation/shared/ThemedTextInput";
 import ThemedView from "@/presentation/shared/ThemedView";
+import { useCameraStore } from "@/presentation/store/useCameraStore";
 import ThemedButtonGroup from "@/presentation/theme/components/ThemedButtonGroup";
 import { router, useLocalSearchParams } from "expo-router";
 import { Formik } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
 import { KeyboardAvoidingView, View } from "react-native";
 
 export default function ProductoByIdScreen() {
+  const { selectedImages, clearImages } = useCameraStore();
   const { id } = useLocalSearchParams();
   const { productQueryById, productMutation } = useProduct(id.toString());
 
@@ -25,6 +27,12 @@ export default function ProductoByIdScreen() {
   }
 
   const productData = productQueryById.data!;
+
+  useEffect(() => {
+    return () => {
+      clearImages();
+    };
+  }, []);
 
   return (
     <>
@@ -40,7 +48,7 @@ export default function ProductoByIdScreen() {
         {({ values, handleSubmit, handleChange, setFieldValue }) => (
           <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
             <ThemedView scroll>
-              <ProductsImages images={values.images} />
+              <ProductsImages images={[...values.images, ...selectedImages]} />
               <ThemedView padding>
                 <View className="flex-col gap-4 mt-4">
                   <ThemedTextInput

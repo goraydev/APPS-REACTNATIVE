@@ -3,6 +3,7 @@ import ThemedButton from "@/presentation/shared/ThemedButton";
 import ThemedHeader from "@/presentation/shared/ThemedHeader";
 import ThemedText from "@/presentation/shared/ThemedText";
 import ThemedView from "@/presentation/shared/ThemedView";
+import { useCameraStore } from "@/presentation/store/useCameraStore";
 import { Ionicons } from "@expo/vector-icons";
 import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
@@ -19,6 +20,7 @@ import {
 } from "react-native";
 
 export default function CameraScreen() {
+  const { addSelectedImage } = useCameraStore();
   const [facing, setFacing] = useState<CameraType>("back");
   const [cameraPermission, requestCameraPermission] = useCameraPermissions();
   const cameraRef = useRef<CameraView>(null);
@@ -85,6 +87,7 @@ export default function CameraScreen() {
   const onPictureAccepted = async () => {
     if (!selectedImage) return;
     await MediaLibrary.createAssetAsync(selectedImage);
+    addSelectedImage(selectedImage);
     router.dismiss();
   };
 
