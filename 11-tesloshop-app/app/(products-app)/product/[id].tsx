@@ -18,6 +18,11 @@ export default function ProductoByIdScreen() {
   const { selectedImages, clearImages } = useCameraStore();
   const { id } = useLocalSearchParams();
   const { productQueryById, productMutation } = useProduct(id.toString());
+  useEffect(() => {
+    return () => {
+      clearImages();
+    };
+  }, []);
 
   if (productQueryById.isLoading) {
     return <ThemedActivity />;
@@ -27,12 +32,6 @@ export default function ProductoByIdScreen() {
   }
 
   const productData = productQueryById.data!;
-
-  useEffect(() => {
-    return () => {
-      clearImages();
-    };
-  }, []);
 
   return (
     <>

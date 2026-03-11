@@ -6,6 +6,7 @@ import ThemedView from "@/presentation/shared/ThemedView";
 import { useCameraStore } from "@/presentation/store/useCameraStore";
 import { Ionicons } from "@expo/vector-icons";
 import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
+import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
 import { router } from "expo-router";
 import React, { useRef, useState } from "react";
@@ -20,7 +21,8 @@ import {
 } from "react-native";
 
 export default function CameraScreen() {
-  const { addSelectedImage } = useCameraStore();
+  const { addSelectedImage, selectedImages, addSelectedImages } =
+    useCameraStore();
   const [facing, setFacing] = useState<CameraType>("back");
   const [cameraPermission, requestCameraPermission] = useCameraPermissions();
   const cameraRef = useRef<CameraView>(null);
@@ -95,6 +97,21 @@ export default function CameraScreen() {
     setSelectedImage(undefined);
   };
 
+  const onPickImages = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ["images"],
+      quality: 0.5,
+      aspect: [4, 3],
+      allowsEditing: true,
+      allowsMultipleSelection: true,
+    });
+
+    if (result.canceled) return;
+    //console.log(result.assets);
+    addSelectedImages(result.assets.map((a) => a.uri));
+    router.dismiss();
+  };
+
   function toggleCameraFacing() {
     setFacing((current) => (current === "back" ? "front" : "back"));
   }
@@ -120,7 +137,7 @@ export default function CameraScreen() {
       />
       <ShutterButton onPress={onShutterButtonPress} />
       <FlipCameraButton onPress={toggleCameraFacing} />
-      <GalleryButton />
+      <GalleryButton onPress={onPickImages} />
       <ReturnCancelButton onPress={onReturnCancel} />
     </View>
   );
