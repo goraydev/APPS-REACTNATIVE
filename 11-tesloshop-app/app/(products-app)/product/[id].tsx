@@ -41,7 +41,10 @@ export default function ProductoByIdScreen() {
       <Formik
         initialValues={productData}
         onSubmit={(productLike) => {
-          productMutation.mutate(productLike);
+          productMutation.mutate({
+            ...productLike,
+            images: [...productLike.images, ...selectedImages],
+          });
         }}
       >
         {({ values, handleSubmit, handleChange, setFieldValue }) => (

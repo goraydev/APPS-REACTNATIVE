@@ -102,7 +102,7 @@ export default function CameraScreen() {
       mediaTypes: ["images"],
       quality: 0.5,
       aspect: [4, 3],
-      allowsEditing: true,
+      allowsEditing: false,
       allowsMultipleSelection: true,
     });
 
