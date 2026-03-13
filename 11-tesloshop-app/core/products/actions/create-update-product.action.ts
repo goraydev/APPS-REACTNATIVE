@@ -54,7 +54,7 @@ const uploadImages = async (image: string): Promise<string> => {
     name: image.split("/").pop(),
   });
 
-  console.log("Subiendo imagen:", image); // Verificar que entra aquí
+  console.log("Subiendo imagen:", image);
 
   const { data } = await productsApi.post<{ image: string }>(
     "/files/product",

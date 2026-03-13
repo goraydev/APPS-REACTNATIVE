@@ -49,7 +49,7 @@ export default function ProductoByIdScreen() {
       >
         {({ values, handleSubmit, handleChange, setFieldValue }) => (
           <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
-            <ThemedView scroll>
+            <ThemedView scroll productQueryById={productQueryById}>
               <ProductsImages images={[...values.images, ...selectedImages]} />
               <ThemedView padding>
                 <View className="flex-col gap-4 mt-4">
