@@ -1,23 +1,15 @@
-import { Stack } from 'expo-router';
-
-import { StyleSheet, View } from 'react-native';
-
-import { ScreenContent } from '@/components/ScreenContent';
+import ThemedText from '@/presentation/shared/ThemedText';
+import ThemedSwitch from '@/presentation/theme/components/ThemedSwitch';
+import ThemedHeader from '@/presentation/shared/ThemedHeader';
+import ThemedView from '@/presentation/shared/ThemedView';
 
 export default function Home() {
   return (
     <>
-      <Stack.Screen options={{ title: 'Home' }} />
-      <View style={styles.container}>
-        <ScreenContent path="app/(tabs)/index.tsx" title="Tab One" />
-      </View>
+      <ThemedHeader title="Eduvalora" />
+      <ThemedView padding>
+        <ThemedText>Holaa</ThemedText>
+      </ThemedView>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 24,
-  },
-});
