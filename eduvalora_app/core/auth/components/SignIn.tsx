@@ -1,4 +1,4 @@
-import { View, Text, useWindowDimensions } from 'react-native';
+import { Alert, View } from 'react-native';
 import React, { useState } from 'react';
 import ThemedText from '@/presentation/shared/ThemedText';
 import ThemedTextInput from '@/presentation/shared/ThemedTextInput';
@@ -7,7 +7,15 @@ import ThemedButton from '@/presentation/shared/ThemedButton';
 export default function SignIn() {
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
-  const { height } = useWindowDimensions();
+
+  const handleSubmit = () => {
+    if ([username, password].some((c) => c === '')) {
+      Alert.alert('Error', 'Todos los campos son requeridos');
+      return;
+    }
+    //SIGN IN
+    console.log({ username, password });
+  };
   return (
     <View className="flex flex-col gap-4">
       <ThemedText type="h1" className="text-center">
@@ -25,7 +33,7 @@ export default function SignIn() {
         placeholder="Password"
         icon="lock-closed-outline"
       />
-      <ThemedButton text="Iniciar Sesión" onPress={() => {}} />
+      <ThemedButton text="Iniciar Sesión" onPress={handleSubmit} />
     </View>
   );
 }
