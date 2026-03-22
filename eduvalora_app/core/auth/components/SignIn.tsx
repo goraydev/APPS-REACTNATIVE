@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import ThemedText from '@/presentation/shared/ThemedText';
 import ThemedTextInput from '@/presentation/shared/ThemedTextInput';
 import ThemedButton from '@/presentation/shared/ThemedButton';
+import { Link } from 'expo-router';
 
 export default function SignIn() {
   const [username, setUserName] = useState('');
@@ -34,6 +35,12 @@ export default function SignIn() {
         icon="lock-closed-outline"
       />
       <ThemedButton text="Iniciar Sesión" onPress={handleSubmit} />
+      <Link href="/(tabs)/(user)/validatestudent">
+        <ThemedText>
+          ¿No tienes cuenta? Verifica si eres estudiante santiaguino y crea una cuenta {''}
+        </ThemedText>
+        <ThemedText type="link">Aquí</ThemedText>
+      </Link>
     </View>
   );
 }

@@ -10,16 +10,16 @@ export default function TabLayout() {
         headerShown: false,
       }}>
       <Tabs.Screen
-        name="index"
+        name="(stack)"
         options={{
           title: 'Home',
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
         }}
       />
       <Tabs.Screen
-        name="user/index"
+        name="(user)"
         options={{
-          title: 'Perfil',
+          title: 'Usuario',
           tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
         }}
       />
