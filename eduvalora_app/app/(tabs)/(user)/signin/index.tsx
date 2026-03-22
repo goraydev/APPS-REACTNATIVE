@@ -3,7 +3,7 @@ import React from 'react';
 import ThemedView from '@/presentation/shared/ThemedView';
 import ThemedHeader from '@/presentation/shared/ThemedHeader';
 import ThemedSwitch from '@/presentation/theme/components/ThemedSwitch';
-import SignIn from '@/core/auth/components/SignIn';
+import SignIn from '@/presentation/auth/components/SignIn';
 
 export default function UserScreen() {
   const { height } = useWindowDimensions();

@@ -2,7 +2,7 @@ import { View, useWindowDimensions } from 'react-native';
 import React from 'react';
 import ThemedHeader from '@/presentation/shared/ThemedHeader';
 import ThemedView from '@/presentation/shared/ThemedView';
-import ValidateStudent from '@/core/auth/components/ValidateStudent';
+import ValidateStudent from '@/presentation/auth/components/ValidateStudent';
 
 export default function ValidateStudentScreen() {
   const { height } = useWindowDimensions();
