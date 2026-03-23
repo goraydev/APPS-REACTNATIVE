@@ -3,18 +3,14 @@ import React from 'react';
 import ThemedHeader from '@/presentation/shared/ThemedHeader';
 import ThemedView from '@/presentation/shared/ThemedView';
 import ThemedText from '@/presentation/shared/ThemedText';
+import SignUp from '@/presentation/auth/components/SignUp';
 
 export default function SignUpScreen() {
   const { height } = useWindowDimensions();
   return (
     <>
-      <ThemedHeader title="Validar estudiante" />
-      <ThemedView padding>
-        <View className="mt-4">
-          <View style={{ paddingTop: height * 0.2 }} />
-          <ThemedText>SignUp</ThemedText>
-        </View>
-      </ThemedView>
+      <ThemedHeader title="Crear Usuario" />
+      <SignUp />
     </>
   );
 }

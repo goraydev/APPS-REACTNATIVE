@@ -1,4 +1,6 @@
+import { eduvaloraAPI } from '@/core/api/eduvaloraApi';
 import { Student } from '../interfaces/students';
+import { User } from '../interfaces/user';
 
 export const getFaculties = async () => {
   try {
@@ -27,5 +29,15 @@ export const validateStudent = async (dni: string, faculty: string) => {
   } catch (error) {
     console.error(error);
     throw new Error('Error al validar el estudiante');
+  }
+};
+
+export const createStudent = async (newUser: User) => {
+  try {
+    const { data } = await eduvaloraAPI.post('/usuarios/estudiantes', newUser);
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Error al crear nuevo usuario');
   }
 };

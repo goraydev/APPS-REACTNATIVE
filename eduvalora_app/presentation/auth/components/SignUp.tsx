@@ -1,11 +1,59 @@
-import { View, Text } from 'react-native';
-import React from 'react';
+import { View, Text, KeyboardAvoidingView, useWindowDimensions, Alert } from 'react-native';
+import React, { useState } from 'react';
 import ThemedText from '@/presentation/shared/ThemedText';
+import ThemedTextInput from '@/presentation/shared/ThemedTextInput';
+import ThemedView from '@/presentation/shared/ThemedView';
+import ThemedButton from '@/presentation/shared/ThemedButton';
 
 export default function SignUp() {
+  const { height } = useWindowDimensions();
+
+  const [newUser, setNewUser] = useState({
+    username: '',
+    email: '',
+    password: '',
+  });
+
+  const handleSubmit = () => {
+    if (Object.values(newUser).some((value) => value === '')) {
+      Alert.alert('Error', 'Por favor, rellena todos los campos');
+      return;
+    }
+
+    // TODO: Create user
+    console.log(newUser);
+  };
+
   return (
-    <View>
-      <ThemedText>SignUp</ThemedText>
-    </View>
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+      <ThemedView scroll padding>
+        <View className="mt-4 flex-col gap-4" style={{ paddingTop: height * 0.2 }}>
+          <ThemedText type="h2" className="text-center">
+            Crea un nombre de usuario creativo para proteger tu identidad y mantener tu seguridad
+          </ThemedText>
+          <ThemedTextInput
+            value={newUser.username}
+            onChangeText={(text) => setNewUser({ ...newUser, username: text })}
+            placeholder="Ejemplo: estudiante-creativo"
+            icon="person-circle-outline"
+          />
+          <ThemedTextInput
+            value={newUser.email}
+            onChangeText={(text) => setNewUser({ ...newUser, email: text })}
+            placeholder="mail@gmail.com"
+            icon="mail-open-outline"
+            keyboardType="email-address"
+          />
+          <ThemedTextInput
+            value={newUser.password}
+            onChangeText={(text) => setNewUser({ ...newUser, password: text })}
+            placeholder="Crea una contraseña"
+            icon="lock-closed-outline"
+            secureTextEntry
+          />
+          <ThemedButton text="Crear Usuario" onPress={handleSubmit} />
+        </View>
+      </ThemedView>
+    </KeyboardAvoidingView>
   );
 }
