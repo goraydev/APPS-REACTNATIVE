@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { validateStudent } from '../../../core/auth/actions/auth-action';
 import { router } from 'expo-router';
 import { Alert } from 'react-native';

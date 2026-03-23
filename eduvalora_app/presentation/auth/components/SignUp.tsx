@@ -1,12 +1,16 @@
-import { View, Text, KeyboardAvoidingView, useWindowDimensions, Alert } from 'react-native';
+import { View, KeyboardAvoidingView, useWindowDimensions, Alert } from 'react-native';
 import React, { useState } from 'react';
 import ThemedText from '@/presentation/shared/ThemedText';
 import ThemedTextInput from '@/presentation/shared/ThemedTextInput';
 import ThemedView from '@/presentation/shared/ThemedView';
 import ThemedButton from '@/presentation/shared/ThemedButton';
+import { useAuthStore } from '../store/store';
+import { useCreateUser } from '../hooks/useCreateUser';
 
 export default function SignUp() {
   const { height } = useWindowDimensions();
+  const studentValidated = useAuthStore((state) => state.newUser);
+  const { createNewUser, isLoading, data } = useCreateUser();
 
   const [newUser, setNewUser] = useState({
     username: '',
@@ -20,8 +24,14 @@ export default function SignUp() {
       return;
     }
 
-    // TODO: Create user
-    console.log(newUser);
+    const dataNewUser = {
+      ...studentValidated,
+      username: newUser.username,
+      email: newUser.email,
+      password: newUser.password,
+    };
+
+    createNewUser(dataNewUser);
   };
 
   return (

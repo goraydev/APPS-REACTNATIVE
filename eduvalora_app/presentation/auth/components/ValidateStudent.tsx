@@ -9,13 +9,14 @@ import { useFaculties } from '../hooks/useFaculties';
 import ThemedActivity from '@/presentation/shared/ThemedActivity';
 import { FacultyUnasam } from '../../../core/auth/interfaces/faculties';
 import { useValidateStudent } from '../hooks/useValidateStudent';
+import { useAuthStore } from '../store/store';
 
 export default function ValidateStudent() {
   const [DNI, setDNI] = useState('');
   const [facultad, setfacultad] = useState('');
   const { facultiesQuery } = useFaculties();
   const { validateStudent, isLoading, data } = useValidateStudent();
-
+  const setNewUser = useAuthStore((state) => state.setNewUser);
 
   const handleSubbmit = () => {
     if ([DNI, facultad].some((c) => c === '')) {
@@ -24,6 +25,14 @@ export default function ValidateStudent() {
     }
 
     validateStudent({ dni: DNI, faculty: facultad });
+
+    setNewUser({
+      DNI,
+      id_faculty: facultad,
+      username: '',
+      email: '',
+      password: '',
+    });
   };
 
   if (facultiesQuery.isLoading) {

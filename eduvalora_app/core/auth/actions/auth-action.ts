@@ -37,7 +37,6 @@ export const createStudent = async (newUser: User) => {
     const { data } = await eduvaloraAPI.post('/usuarios/estudiantes', newUser);
     return data;
   } catch (error) {
-    console.error(error);
-    throw new Error('Error al crear nuevo usuario');
+    throw new Error(`Error al crear nuevo usuario, ${error}`);
   }
 };
