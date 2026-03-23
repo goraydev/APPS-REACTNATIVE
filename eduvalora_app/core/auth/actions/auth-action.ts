@@ -1,6 +1,6 @@
 import { eduvaloraAPI } from '@/core/api/eduvaloraApi';
 import { Student } from '../interfaces/students';
-import { User } from '../interfaces/user';
+import { User, UserLogin, UserResponse } from '../interfaces/user';
 import axios from 'axios';
 
 export const getFaculties = async () => {
@@ -55,5 +55,20 @@ export const createUser = async (newUser: User) => {
       }
       throw new Error('Error desconocido al crear el usuario');
     }
+  }
+};
+
+export const login = async (form: UserLogin) => {
+  try {
+    const { data } = await eduvaloraAPI.post<UserResponse>('/login', form);
+    return data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const responseData = error.response?.data;
+      if (responseData?.message) {
+        throw new Error(responseData.message);
+      }
+    }
+    throw new Error('Error al ingresar al sistema');
   }
 };
