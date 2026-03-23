@@ -1,15 +1,17 @@
 import { useMutation } from '@tanstack/react-query';
 import { User } from '../../../core/auth/interfaces/user';
-import { createStudent } from '@/core/auth/actions/auth-action';
+import { createUser } from '@/core/auth/actions/auth-action';
+import { Alert } from 'react-native';
 
 export const useCreateUser = () => {
   const mutation = useMutation({
-    mutationFn: (newUser: User) => createStudent(newUser),
+    mutationFn: (newUser: User) => createUser(newUser),
     onSuccess: (data) => {
-      console.log('Éxito:', data);
+      console.log('Éxito al crear usuario:', data);
     },
-    onError: (error) => {
-      console.error('Error:', error);
+    onError: (error: Error) => {
+      //console.error('Error:', error.message);
+      Alert.alert('Error', error.message);
     },
   });
 

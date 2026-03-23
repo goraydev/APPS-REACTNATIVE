@@ -6,6 +6,7 @@ import ThemedView from '@/presentation/shared/ThemedView';
 import ThemedButton from '@/presentation/shared/ThemedButton';
 import { useAuthStore } from '../store/store';
 import { useCreateUser } from '../hooks/useCreateUser';
+import ThemedActivity from '@/presentation/shared/ThemedActivity';
 
 export default function SignUp() {
   const { height } = useWindowDimensions();
@@ -61,7 +62,13 @@ export default function SignUp() {
             icon="lock-closed-outline"
             secureTextEntry
           />
-          <ThemedButton text="Crear Usuario" onPress={handleSubmit} />
+          {isLoading ? (
+            <View className="flex flex-col items-center justify-center">
+              <ThemedActivity />
+            </View>
+          ) : (
+            <ThemedButton text="Crear Usuario" onPress={handleSubmit} />
+          )}
         </View>
       </ThemedView>
     </KeyboardAvoidingView>

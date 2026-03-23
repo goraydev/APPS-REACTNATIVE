@@ -1,5 +1,5 @@
 export interface User {
-  DNI: string;
+  dni: number;
   id_faculty: string;
   username: string;
   email: string;

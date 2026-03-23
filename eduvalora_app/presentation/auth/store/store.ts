@@ -8,7 +8,7 @@ export interface AuthState {
 
 export const useAuthStore = create<AuthState>((set) => ({
   newUser: {
-    DNI: '',
+    dni: 0,
     id_faculty: '',
     username: '',
     email: '',

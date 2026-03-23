@@ -27,7 +27,7 @@ export default function ValidateStudent() {
     validateStudent({ dni: DNI, faculty: facultad });
 
     setNewUser({
-      DNI,
+      dni: +DNI,
       id_faculty: facultad,
       username: '',
       email: '',
