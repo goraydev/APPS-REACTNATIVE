@@ -18,7 +18,7 @@ export default function SignIn() {
       return;
     }
 
-    loginUserQuery({ username, password });
+    loginUserQuery({ username: username.trim(), password });
   };
   return (
     <View className="flex flex-col gap-4">

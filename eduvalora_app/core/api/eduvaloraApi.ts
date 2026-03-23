@@ -17,10 +17,11 @@ const eduvaloraAPI = axios.create({
 
 //interceptores
 eduvaloraAPI.interceptors.request.use(async (config) => {
-  //verificar si tenemos el token
   const token = await SecureStorageAdapter.getItem('token');
+
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
+    config.headers['x-token'] = token;
   }
 
   return config;

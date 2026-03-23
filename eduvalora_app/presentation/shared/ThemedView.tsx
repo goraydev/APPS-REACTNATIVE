@@ -13,22 +13,13 @@ export default function ThemedView({
   children,
   scroll = false,
   padding = false,
-  productQueryById = false,
 }: Props) {
   const paddingClass = padding ? 'px-4' : '';
 
   return scroll ? (
     <ScrollView
       className={`flex-1 bg-white dark:bg-gray-900 ${paddingClass} ${className}`}
-      showsVerticalScrollIndicator={false}
-      refreshControl={
-        <RefreshControl
-          refreshing={productQueryById?.isFetching}
-          onRefresh={async () => {
-            await productQueryById?.refetch();
-          }}
-        />
-      }>
+      showsVerticalScrollIndicator={false}>
       {children}
     </ScrollView>
   ) : (

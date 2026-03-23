@@ -72,3 +72,12 @@ export const login = async (form: UserLogin) => {
     throw new Error('Error al ingresar al sistema');
   }
 };
+
+export const authCheckStatus = async () => {
+  try {
+    const { data } = await eduvaloraAPI.get<UserResponse>('/renew');
+    return data;
+  } catch (error) {
+    return null;
+  }
+};
