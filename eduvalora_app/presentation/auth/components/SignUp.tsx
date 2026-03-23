@@ -38,7 +38,12 @@ export default function SignUp() {
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
       <ThemedView scroll padding>
-        <View className="mt-4 flex-col gap-4" style={{ paddingTop: height * 0.2 }}>
+        <View className="mt-4 flex-col gap-4" style={{ paddingTop: height * 0.1 }}>
+          <ThemedText
+            type="normal"
+            className="rounded-md bg-green-400 p-2 text-center text-green-700 dark:bg-green-400">
+            Comprobado que eres estudiante santiaguino
+          </ThemedText>
           <ThemedText type="h2" className="text-center">
             Crea un nombre de usuario creativo para proteger tu identidad y mantener tu seguridad
           </ThemedText>

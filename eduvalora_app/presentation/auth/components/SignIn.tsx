@@ -36,6 +36,7 @@ export default function SignIn() {
         onChangeText={setPassword}
         placeholder="Password"
         icon="lock-closed-outline"
+        secureTextEntry
       />
       {isLoading ? (
         <View className="flex flex-col items-center justify-center">
