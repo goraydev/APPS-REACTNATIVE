@@ -41,7 +41,7 @@ export default function SignUp() {
         <View className="mt-4 flex-col gap-4" style={{ paddingTop: height * 0.1 }}>
           <ThemedText
             type="normal"
-            className="rounded-md bg-green-400 p-2 text-center text-green-700 dark:bg-green-400">
+            className="rounded-md bg-green-400 p-2 text-center text-green-700 dark:bg-green-400 dark:text-green-900">
             Comprobado que eres estudiante santiaguino
           </ThemedText>
           <ThemedText type="h2" className="text-center">
