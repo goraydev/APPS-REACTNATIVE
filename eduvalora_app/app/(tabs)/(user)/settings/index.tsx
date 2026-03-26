@@ -25,6 +25,10 @@ export default function SettingsScreen() {
           <ThemedText type="semibold">Usuario: </ThemedText>
           <ThemedText type="semibold">{user?.usuario.username}</ThemedText>
         </View>
+        <View className="mb-4 flex flex-row border-2 border-gray-950 p-4">
+          <ThemedText type="semibold">Correo: </ThemedText>
+          <ThemedText type="semibold">{user?.usuario.email}</ThemedText>
+        </View>
 
         <ThemedButton text="Cerrar Sesión" onPress={logout} icon="log-out-outline" />
       </ThemedView>
