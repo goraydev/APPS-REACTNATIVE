@@ -81,3 +81,21 @@ export const authCheckStatus = async () => {
     return null;
   }
 };
+
+export const updateUser = async (username: string, email: string, idUser: number) => {
+  try {
+    const { data } = await eduvaloraAPI.put(`/usuarios/${idUser}`, {
+      username,
+      email,
+    });
+    return data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const responseData = error.response?.data;
+      if (responseData?.message) {
+        throw new Error(responseData.message);
+      }
+    }
+    throw new Error('Error al ingresar al sistema');
+  }
+};

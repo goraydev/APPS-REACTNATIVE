@@ -5,19 +5,32 @@ import ThemedSwitch from '@/presentation/theme/components/ThemedSwitch';
 import ThemedText from '@/presentation/shared/ThemedText';
 import { useAuthStore } from '@/presentation/auth/store/store';
 import ThemedButton from '@/presentation/shared/ThemedButton';
-import { View } from 'react-native';
+import { Alert, View } from 'react-native';
 import ThemedTextInput from '@/presentation/shared/ThemedTextInput';
 import ThemedActivity from '@/presentation/shared/ThemedActivity';
+import useUpdateDatesUser from '@/presentation/auth/hooks/useUpdateDatesUser';
 
 export default function SettingsScreen() {
-  const { logout, user } = useAuthStore();
-  const [boxUserName, setBoxUsername] = useState('');
-  const [boxEmail, setboxEmail] = useState();
+  const { user } = useAuthStore();
+  const { updateUserQuery } = useUpdateDatesUser();
 
   if (!user) {
     return <ThemedActivity />;
   }
-  const { username, email } = user.usuario;
+  const { username, email, id } = user.usuario;
+
+  const [boxUserName, setBoxUsername] = useState(username);
+  const [boxEmail, setboxEmail] = useState(email);
+
+  const handleSubmit = () => {
+    if (boxUserName === '' || boxEmail === '') {
+      Alert.alert('Error', 'Por favor, rellena todos los campos');
+      return;
+    }
+
+    //console.log({ username, email, id });
+    updateUserQuery({ username: boxUserName, email: boxEmail, idUser: id });
+  };
 
   return (
     <>
@@ -33,21 +46,17 @@ export default function SettingsScreen() {
         <View className="flex flex-col gap-4">
           <ThemedText type="semibold">Nombre de Usuario: </ThemedText>
           <ThemedTextInput
-            value={username}
-            onChangeText={(text) => setBoxUsername(text)}
+            value={boxUserName}
+            onChangeText={setBoxUsername}
             placeholder="Username"
           />
         </View>
         <View className="my-4 flex flex-col gap-4">
           <ThemedText type="semibold">Email: </ThemedText>
-          <ThemedTextInput
-            value={email}
-            onChangeText={(text) => setBoxUsername(text)}
-            placeholder="Username"
-          />
+          <ThemedTextInput value={boxEmail} onChangeText={setboxEmail} placeholder="Username" />
         </View>
 
-        <ThemedButton text="Actualizar" onPress={logout} />
+        <ThemedButton text="Actualizar" onPress={handleSubmit} />
       </ThemedView>
     </>
   );
