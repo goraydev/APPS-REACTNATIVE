@@ -1,24 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import ThemedHeader from '@/presentation/shared/ThemedHeader';
-import ThemedView from '@/presentation/shared/ThemedView';
-import ThemedSwitch from '@/presentation/theme/components/ThemedSwitch';
 import ThemedText from '@/presentation/shared/ThemedText';
-import { useAuthStore } from '@/presentation/auth/store/store';
-import ThemedButton from '@/presentation/shared/ThemedButton';
+import ThemedView from '@/presentation/shared/ThemedView';
 import { Alert, View } from 'react-native';
 import ThemedTextInput from '@/presentation/shared/ThemedTextInput';
-import ThemedActivity from '@/presentation/shared/ThemedActivity';
+import ThemedButton from '@/presentation/shared/ThemedButton';
+import { useAuthStore } from '@/presentation/auth/store/store';
 import useUpdateDatesUser from '@/presentation/auth/hooks/useUpdateDatesUser';
-import { Link } from 'expo-router';
+import ThemedActivity from '@/presentation/shared/ThemedActivity';
+import { useWindowDimensions } from 'react-native';
 
-export default function SettingsScreen() {
+export default function ProfileScreen() {
   const { user, logout } = useAuthStore();
   const [boxUserName, setBoxUsername] = useState('');
   const [boxEmail, setboxEmail] = useState('');
   const { updateUserQuery } = useUpdateDatesUser();
+  const { height } = useWindowDimensions();
 
   /* setBoxUsername(username);
-  setboxEmail(email); */
+    setboxEmail(email); */
 
   useEffect(() => {
     if (user?.usuario) {
@@ -42,35 +42,12 @@ export default function SettingsScreen() {
     //console.log({ username, email, id });
     updateUserQuery({ username: boxUserName, email: boxEmail, idUser: id });
   };
-
   return (
     <>
-      <ThemedHeader title={`Hola ${username}`} />
-      <ThemedView scroll padding>
-        <ThemedText type="h2" className="my-4">
-          Ajustes de Tema
-        </ThemedText>
-        <ThemedSwitch />
-        <ThemedText type="h2" className="my-4">
-          Ajustes de Perfil
-        </ThemedText>
-
+      <ThemedHeader title="Actualizar Datos Generales" />
+      <ThemedView padding>
+        <View style={{ paddingTop: height * 0.2 }} />
         <View className="flex flex-col gap-4">
-          <Link
-            href="/settings/profile"
-            className="rounded-md bg-gray-300 p-4 dark:bg-gray-950">
-            <ThemedText>Actualizar Datos Generales</ThemedText>
-          </Link>
-
-          <View className="rounded-md bg-gray-300 p-4 dark:bg-gray-950">
-            <ThemedText>Actualizar Foto de Perfil</ThemedText>
-          </View>
-          <View className="rounded-md bg-gray-300 p-4 dark:bg-gray-950">
-            <ThemedText>Actualizar Contraseña</ThemedText>
-          </View>
-        </View>
-
-        {/* <View className="flex flex-col gap-4">
           <ThemedText type="semibold">Nombre de Usuario: </ThemedText>
           <ThemedTextInput
             value={boxUserName}
@@ -83,9 +60,7 @@ export default function SettingsScreen() {
           <ThemedTextInput value={boxEmail} onChangeText={setboxEmail} placeholder="Username" />
         </View>
 
-        <ThemedButton text="Actualizar" onPress={handleSubmit} /> */}
-        <View className="mt-4" />
-        <ThemedButton text="Cerrar Sesión" onPress={logout} icon="log-out-outline" />
+        <ThemedButton text="Actualizar" onPress={handleSubmit} />
       </ThemedView>
     </>
   );
