@@ -10,6 +10,7 @@ export const useLoginUser = () => {
   const mutation = useMutation({
     mutationFn: (form: UserLogin) => login(form),
     onSuccess: (data) => {
+      console.log(data);
       changeStatus(data);
       router.replace('/(tabs)/(user)/settings');
     },

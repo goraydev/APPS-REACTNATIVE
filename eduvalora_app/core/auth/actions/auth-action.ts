@@ -1,6 +1,6 @@
 import { eduvaloraAPI } from '@/core/api/eduvaloraApi';
 import { Student } from '../interfaces/students';
-import { User, UserLogin, UserResponse } from '../interfaces/user';
+import { User, UserLogin, UserResponse, Usuario } from '../interfaces/user';
 import axios from 'axios';
 
 export const getFaculties = async () => {
@@ -84,7 +84,7 @@ export const authCheckStatus = async () => {
 
 export const updateUser = async (username: string, email: string, idUser: number) => {
   try {
-    const { data } = await eduvaloraAPI.put(`/usuarios/${idUser}`, {
+    const { data } = await eduvaloraAPI.put<Usuario>(`/usuarios/${idUser}`, {
       username,
       email,
     });

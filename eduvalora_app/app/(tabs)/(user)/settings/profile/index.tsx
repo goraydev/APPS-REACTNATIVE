@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import ThemedHeader from '@/presentation/shared/ThemedHeader';
 import ThemedText from '@/presentation/shared/ThemedText';
 import ThemedView from '@/presentation/shared/ThemedView';
@@ -11,27 +11,22 @@ import ThemedActivity from '@/presentation/shared/ThemedActivity';
 import { useWindowDimensions } from 'react-native';
 
 export default function ProfileScreen() {
-  const { user, logout } = useAuthStore();
+  const { user, logout, status } = useAuthStore();
   const [boxUserName, setBoxUsername] = useState('');
   const [boxEmail, setboxEmail] = useState('');
   const { updateUserQuery } = useUpdateDatesUser();
   const { height } = useWindowDimensions();
 
-  /* setBoxUsername(username);
-    setboxEmail(email); */
-
   useEffect(() => {
-    if (user?.usuario) {
-      setBoxUsername(user.usuario.username);
-      setboxEmail(user.usuario.email);
+    if (user) {
+      setBoxUsername(user.username);
+      setboxEmail(user.email);
     }
   }, [user]);
 
-  if (user === null) {
-    return <ThemedActivity />;
-  }
+  if (!user) return <ThemedActivity />;
 
-  const { username, id } = user.usuario;
+  const { username, id } = user;
 
   const handleSubmit = () => {
     if (boxUserName === '' || boxEmail === '') {

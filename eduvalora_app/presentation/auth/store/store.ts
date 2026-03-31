@@ -8,7 +8,8 @@ export type AuthStatus = 'authenticated' | 'unauthenticated' | 'checking';
 export interface AuthState {
   newUser: User;
   setNewUser: (newUser: User) => void;
-  user: UserResponse | null;
+  user: Usuario | null;
+  setUser: (user: Usuario | null) => void;
   status: AuthStatus;
   changeStatus: (user: UserResponse) => Promise<boolean>;
   logout: () => Promise<void>;
@@ -26,15 +27,17 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
   user: null,
   setNewUser: (payload) => set((state) => ({ newUser: payload })),
+  setUser: (payload) => set((state) => ({ user: payload })),
   changeStatus: async (user: UserResponse) => {
     if (!user) {
-      set({ status: 'unauthenticated', user: null });
+      set({ status: 'unauthenticated', user: undefined });
       await SecureStorageAdapter.deleteItem('token');
       return false;
     }
 
     await SecureStorageAdapter.setItem('token', user.token);
-    set({ status: 'authenticated', user: user });
+
+    set({ status: 'authenticated', user: user.usuario });
     return true;
   },
   logout: async () => {
@@ -49,6 +52,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       await SecureStorageAdapter.deleteItem('token');
       return;
     }
+
+    /* if (!resp.usuario) {
+      const currentUser = get().user;
+      if (currentUser?.usuario) {
+        await get().changeStatus({ ...currentUser, ...resp });
+        return;
+      }
+    } */
+
     await get().changeStatus(resp);
   },
 }));

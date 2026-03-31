@@ -1,8 +1,10 @@
 import { updateUser } from '@/core/auth/actions/auth-action';
 import { useMutation } from '@tanstack/react-query';
 import { Alert } from 'react-native';
+import { useAuthStore } from '../store/store';
 
 export default function useUpdateDatesUser() {
+  const { setUser, user } = useAuthStore();
   const mutation = useMutation({
     mutationFn: ({
       username,
@@ -14,6 +16,7 @@ export default function useUpdateDatesUser() {
       idUser: number;
     }) => updateUser(username, email, idUser),
     onSuccess: (data) => {
+      setUser(data);
       Alert.alert('Éxito', 'Datos actualizados');
     },
     onError: (error: Error) => {
