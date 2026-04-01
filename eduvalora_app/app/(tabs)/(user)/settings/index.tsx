@@ -29,9 +29,9 @@ export default function SettingsScreen() {
             <ThemedText>Actualizar Datos Generales</ThemedText>
           </Link>
 
-          <View className="rounded-md bg-gray-300 p-4 dark:bg-gray-950">
+          <Link href="/settings/photo" className="rounded-md bg-gray-300 p-4 dark:bg-gray-950">
             <ThemedText>Actualizar Foto de Perfil</ThemedText>
-          </View>
+          </Link>
           <View className="rounded-md bg-gray-300 p-4 dark:bg-gray-950">
             <ThemedText>Actualizar Contraseña</ThemedText>
           </View>

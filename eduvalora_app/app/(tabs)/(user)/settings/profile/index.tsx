@@ -39,9 +39,12 @@ export default function ProfileScreen() {
   };
   return (
     <>
-      <ThemedHeader title="Actualizar Datos Generales" />
+      <ThemedHeader title="Eduvalora" />
       <ThemedView padding>
         <View style={{ paddingTop: height * 0.2 }} />
+        <ThemedText type="h1" className="mb-2 text-center font-semibold">
+          Actualizar Datos Generales
+        </ThemedText>
         <View className="flex flex-col gap-4">
           <ThemedText type="semibold">Nombre de Usuario: </ThemedText>
           <ThemedTextInput
