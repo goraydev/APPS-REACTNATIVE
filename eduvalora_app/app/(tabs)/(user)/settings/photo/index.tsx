@@ -8,12 +8,14 @@ import ThemedActivity from '@/presentation/shared/ThemedActivity';
 import { Ionicons } from '@expo/vector-icons';
 import ThemedButton from '@/presentation/shared/ThemedButton';
 import * as ImagePicker from 'expo-image-picker';
+import useUpdatePhotoUser from '@/presentation/auth/hooks/useUpdatePhotoUser';
 
 export default function PhotoScreen() {
   const { height } = useWindowDimensions();
   const { user } = useAuthStore();
   const [image, setImage] = useState<string | null>(null);
   const [imageBase64, setImageBase64] = useState<string | null>(null);
+  const { updatePhotoQuery, isLoading } = useUpdatePhotoUser();
 
   if (!user) return <ThemedActivity />;
 
@@ -50,10 +52,10 @@ export default function PhotoScreen() {
   };
 
   const handlePhoto = () => {
-    console.log(imageBase64);
     if (imageBase64 !== null) {
       //Subir a la base de datos
       console.log({ base64: imageBase64.slice(0, 20) });
+      updatePhotoQuery({ base64: imageBase64 });
     }
   };
 

@@ -99,3 +99,21 @@ export const updateUser = async (username: string, email: string, idUser: number
     throw new Error('Error al ingresar al sistema');
   }
 };
+
+export const updatePhoto = async (id: number, base64: string, username: string) => {
+  try {
+    const { data } = await eduvaloraAPI.put(`/usuarios/foto/${id}`, {
+      base64,
+      username,
+    });
+    return data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const responseData = error.response?.data;
+      if (responseData?.message) {
+        throw new Error(responseData.message);
+      }
+    }
+    throw new Error('Error al actualizar la foto de perfil');
+  }
+};
