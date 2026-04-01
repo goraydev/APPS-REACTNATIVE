@@ -50,10 +50,12 @@ export default function ValidateStudent() {
         placeholder="DNI"
         icon="id-card-outline"
         keyboardType="numeric"
+        maxLength={8}
       />
-      <ThemedText>Selecciona una Facultad</ThemedText>
+      
       <View className="bg-gray-200 dark:bg-blue-900 ">
         <Picker selectedValue={facultad} onValueChange={(item) => setfacultad(item)}>
+          <Picker.Item label="Selecciona una facultad" style={{ color: 'black' }} value="" />
           {facultiesQuery.data?.map((faculty: FacultyUnasam) => (
             <Picker.Item
               label={faculty.nombre}
