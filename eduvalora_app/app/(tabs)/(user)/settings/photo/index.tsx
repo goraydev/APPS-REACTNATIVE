@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ThemedHeader from '@/presentation/shared/ThemedHeader';
 import ThemedText from '@/presentation/shared/ThemedText';
 import ThemedView from '@/presentation/shared/ThemedView';
@@ -9,12 +9,14 @@ import { Ionicons } from '@expo/vector-icons';
 import ThemedButton from '@/presentation/shared/ThemedButton';
 import * as ImagePicker from 'expo-image-picker';
 import useUpdatePhotoUser from '@/presentation/auth/hooks/useUpdatePhotoUser';
+import { getImageOfBase64 } from '@/helpers/functions/getImageOfbase64';
 
 export default function PhotoScreen() {
   const { height } = useWindowDimensions();
   const { user } = useAuthStore();
   const [image, setImage] = useState<string | null>(null);
   const [imageBase64, setImageBase64] = useState<string | null>(null);
+  const [currentImage, setCurrentImage] = useState<string | null>(null);
   const { updatePhotoQuery, isLoading } = useUpdatePhotoUser();
 
   if (!user) return <ThemedActivity />;
@@ -45,6 +47,7 @@ export default function PhotoScreen() {
     }
 
     setImageBase64(result.assets[0].base64);
+    setCurrentImage(result.assets[0].uri);
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
@@ -52,12 +55,14 @@ export default function PhotoScreen() {
   };
 
   const handlePhoto = () => {
-    if (imageBase64 !== null) {
-      //Subir a la base de datos
-      console.log({ base64: imageBase64.slice(0, 20) });
-      updatePhotoQuery({ base64: imageBase64 });
-    }
+    if (!imageBase64) return;
+    updatePhotoQuery({ base64: imageBase64 });
   };
+
+  useEffect(() => {
+    const base64TPhoto = getImageOfBase64(user.photo);
+    setCurrentImage(base64TPhoto);
+  }, [user]);
 
   return (
     <>
@@ -69,9 +74,9 @@ export default function PhotoScreen() {
         </ThemedText>
         <View className="flex flex-col gap-4">
           <ThemedText type="semibold">Foto de Perfil: </ThemedText>
-          {image && (
+          {currentImage && (
             <Image
-              source={{ uri: image }}
+              source={{ uri: currentImage }}
               style={{ width: 200, height: 200, borderRadius: 100, alignSelf: 'center' }}
             />
           )}

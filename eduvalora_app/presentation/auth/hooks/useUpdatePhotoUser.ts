@@ -9,8 +9,8 @@ export default function useUpdatePhotoUser() {
   const mutation = useMutation({
     mutationFn: ({ base64 }: { base64: string }) => updatePhoto(user?.id!, base64, user?.username!),
     onSuccess: (data) => {
-      setUser(data);
-      Alert.alert('Éxito', 'Datos actualizados');
+      setUser({ ...data, photo: data.photo });
+      Alert.alert('Éxito', 'Foto de perfil actualizada correctamente');
     },
     onError: (error: Error) => {
       Alert.alert('Error', error.message);

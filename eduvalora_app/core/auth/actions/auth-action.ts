@@ -102,10 +102,11 @@ export const updateUser = async (username: string, email: string, idUser: number
 
 export const updatePhoto = async (id: number, base64: string, username: string) => {
   try {
-    const { data } = await eduvaloraAPI.put(`/usuarios/foto/${id}`, {
-      base64,
+    const { data } = await eduvaloraAPI.put<Usuario>(`/usuarios/foto/${id}`, {
+      image: base64,
       username,
     });
+
     return data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
