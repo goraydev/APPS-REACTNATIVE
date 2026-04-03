@@ -118,3 +118,35 @@ export const updatePhoto = async (id: number, base64: string, username: string) 
     throw new Error('Error al actualizar la foto de perfil');
   }
 };
+
+export const updatePassword = async (
+  id: number,
+  valueCurrentPassword: string,
+  valueNewPassword: string
+) => {
+  try {
+    const { data } = await eduvaloraAPI.put<Usuario>('/actualizarpassword', {
+      id,
+      valueCurrentPassword,
+      valueNewPassword,
+    });
+
+    return data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const responseData = error.response?.data;
+
+      if (responseData?.errores) {
+        const messages = Object.values(responseData.errores)
+          .map((e: any) => `• ${e.msg}`)
+          .join('\n');
+        throw new Error(messages);
+      }
+
+      if (responseData?.message) {
+        throw new Error(responseData.message);
+      }
+      throw new Error('Error desconocido al crear el usuario');
+    }
+  }
+};

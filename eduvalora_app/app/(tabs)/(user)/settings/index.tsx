@@ -32,9 +32,9 @@ export default function SettingsScreen() {
           <Link href="/settings/photo" className="rounded-md bg-gray-300 p-4 dark:bg-gray-950">
             <ThemedText>Actualizar Foto de Perfil</ThemedText>
           </Link>
-          <View className="rounded-md bg-gray-300 p-4 dark:bg-gray-950">
+          <Link href="/settings/password" className="rounded-md bg-gray-300 p-4 dark:bg-gray-950">
             <ThemedText>Actualizar Contraseña</ThemedText>
-          </View>
+          </Link>
         </View>
         <View className="mt-4" />
         <ThemedButton text="Cerrar Sesión" onPress={logout} icon="log-out-outline" />
