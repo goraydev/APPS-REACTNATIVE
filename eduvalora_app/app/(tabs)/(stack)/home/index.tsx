@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ThemedText from '@/presentation/shared/ThemedText';
 import ThemedView from '@/presentation/shared/ThemedView';
 import ThemedHeader from '@/presentation/shared/ThemedHeader';
@@ -8,8 +8,10 @@ import { FlatList, KeyboardAvoidingView, Text, View } from 'react-native';
 import CardTeacher from '@/presentation/teachers/components/CardTeacher';
 import { LinearGradient } from 'expo-linear-gradient';
 import Search from '@/presentation/teachers/components/Search';
+import ThemedTextInput from '@/presentation/shared/ThemedTextInput';
 
 export default function HomeScreen() {
+  const [searchBox, setSearchBox] = useState('');
   const { getTeachersQuery, isLoading, data } = useTeachers();
 
   useEffect(() => {
@@ -19,6 +21,14 @@ export default function HomeScreen() {
   if (isLoading) {
     return <ThemedActivity />;
   }
+
+  const filteredTeachers = !isLoading
+    ? data?.filter((teacher) =>
+        (teacher.paternal_surname + ' ' + teacher.maternal_surname + ' ' + teacher.names)
+          .toLowerCase()
+          .includes(searchBox.toLowerCase())
+      )
+    : [];
 
   return (
     <>
@@ -37,7 +47,15 @@ export default function HomeScreen() {
               Descubre y evalúa a los mejores docentes de la Universidad Nacional Santiago Antúnez
               de Mayolo. Tu opinión construye una mejor educación.
             </Text>
-            <Search />
+            <View className="mt-4 px-4">
+              <ThemedTextInput
+                value={searchBox}
+                onChangeText={setSearchBox}
+                placeholder="Buscar Docente"
+                icon="search-outline"
+                className="rounded-xl"
+              />
+            </View>
           </LinearGradient>
           <View className="mt-4">
             <ThemedText type="h2" className="font-bold">
@@ -47,7 +65,7 @@ export default function HomeScreen() {
           </View>
 
           <FlatList
-            data={data}
+            data={filteredTeachers}
             numColumns={1}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => <CardTeacher {...item} key={item.id} />}
