@@ -6,14 +6,14 @@ export default function Search() {
   const [searchBox, setSearchBox] = useState('');
 
   return (
-    <View className='absolute bottom-4 w-full px-4'>
-    <ThemedTextInput
-      value={searchBox}
-      onChangeText={setSearchBox}
-      placeholder="Buscar Docente"
-      icon="search-outline"
-      className='bg-blue-300'
-    />
+    <View className="mt-4 px-4">
+      <ThemedTextInput
+        value={searchBox}
+        onChangeText={setSearchBox}
+        placeholder="Buscar Docente"
+        icon="search-outline"
+        className="rounded-xl"
+      />
     </View>
   );
 }

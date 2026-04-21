@@ -34,7 +34,7 @@ export default function TeacherScreen() {
     <>
       <ThemedView padding scroll>
         <View className="flex items-center justify-center">
-          <View className="mt-2 flex items-center justify-center rounded-xl bg-blue-500 p-8 dark:bg-gray-950">
+          <View className="bg-bg-primary mt-2 flex items-center justify-center rounded-xl p-8 dark:bg-gray-950">
             <ThemedText type="h1" className="font-bold">
               {data?.names.at(0)}
               {data?.paternal_surname.at(0)}
@@ -46,7 +46,7 @@ export default function TeacherScreen() {
           <Text className="text-blue-500">DOCENTE</Text>
           <View className="mt-2 flex flex-row items-center justify-center gap-2">
             <Text className="rounded-full bg-blue-300 px-4 py-2">{data?.acronym}</Text>
-            <Text className="rounded-full bg-blue-500 p-2">{data?.dedication}</Text>
+            <Text className="bg-bg-primary rounded-full p-2">{data?.dedication}</Text>
           </View>
         </View>
         <View className="mt-4 flex flex-row gap-2">
@@ -74,7 +74,7 @@ export default function TeacherScreen() {
               </View>
               <View className="flex-1">
                 <ThemedText>FACULTAD</ThemedText>
-                <ThemedText type='semibold' numberOfLines={2} ellipsizeMode="tail">
+                <ThemedText type="semibold" numberOfLines={2} ellipsizeMode="tail">
                   {data?.faculty}
                 </ThemedText>
               </View>
@@ -114,11 +114,11 @@ export default function TeacherScreen() {
           </View>
         </View>
         <View className="my-4 flex flex-row gap-4">
-          <Pressable className="flex flex-1 flex-row items-center justify-center gap-2 rounded-full bg-blue-500 p-4 active:bg-blue-600">
+          <Pressable className="bg-bg-primary flex flex-1 flex-row items-center justify-center gap-2 rounded-full p-4 active:bg-blue-800">
             <Ionicons name="star" size={24} color="white" />
             <ThemedText type="semibold">Calificar</ThemedText>
           </Pressable>
-          <Pressable className="flex flex-1 flex-row items-center justify-center gap-2 rounded-full border-2 border-blue-500 active:bg-blue-600">
+          <Pressable className="border-bg-primary active:bg-bg-primary flex flex-1 flex-row items-center justify-center gap-2 rounded-full border-2">
             <Ionicons name="chatbubble" size={24} color="#3b82f6" />
             <ThemedText type="semibold" className="text-blue-500">
               Comentar
