@@ -7,7 +7,6 @@ import ThemedActivity from '@/presentation/shared/ThemedActivity';
 import { FlatList, KeyboardAvoidingView, Text, View } from 'react-native';
 import CardTeacher from '@/presentation/teachers/components/CardTeacher';
 import { LinearGradient } from 'expo-linear-gradient';
-import Search from '@/presentation/teachers/components/Search';
 import ThemedTextInput from '@/presentation/shared/ThemedTextInput';
 
 export default function HomeScreen() {

@@ -14,11 +14,14 @@ export default function CardTeacher(teacher: Teacher) {
     total_evaluaciones,
     promedio_rating,
   } = teacher;
+
+  const rating = Number(promedio_rating);
+
   return (
     <Pressable
-      className="bg-bg-secondary dark:bg-bg-primary flex flex-row items-center justify-between gap-4 rounded-xl px-4 py-8"
+      className="flex flex-row items-center justify-between gap-4 rounded-xl bg-bg-secondary px-4 py-8 dark:bg-bg-primary"
       onPress={() => router.push(`(tabs)/(stack)/${id}`)}>
-      <View className="bg-bg-primary dark:bg-bg-secondary rounded-xl p-4">
+      <View className="rounded-xl bg-bg-primary p-4 dark:bg-bg-secondary">
         <Text className="text-xl font-bold text-white dark:text-black">
           {names.at(0)}
           {paternal_surname.at(0)}
@@ -31,14 +34,13 @@ export default function CardTeacher(teacher: Teacher) {
           <ThemedText className="text-base font-bold">{maternal_surname}</ThemedText>
         </View>
         <View className="flex flex-row gap-2">
-          {promedio_rating ? (
+          <Ionicons name="star" size={18} color="#ecc513" />
+          {rating ? (
             <>
-              <Ionicons name="star" size={18} color="#ecc513" />
-              <ThemedText>{promedio_rating}4.5</ThemedText>
+              <ThemedText>{rating.toFixed(1)}</ThemedText>
             </>
           ) : (
             <>
-              <Ionicons name="star" size={18} color="#ecc513" />
               <ThemedText>Sin evaluaciones</ThemedText>
             </>
           )}
