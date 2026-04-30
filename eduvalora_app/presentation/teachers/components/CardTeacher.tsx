@@ -20,7 +20,7 @@ export default function CardTeacher(teacher: Teacher) {
   return (
     <Pressable
       className="flex flex-row items-center justify-between gap-4 rounded-xl bg-bg-secondary px-4 py-8 dark:bg-bg-primary"
-      onPress={() => router.push(`(tabs)/(stack)/${id}`)}>
+      onPress={() => router.push(`(tabs)/(stack)/teacher/${id}`)}>
       <View className="rounded-xl bg-bg-primary p-4 dark:bg-bg-secondary">
         <Text className="text-xl font-bold text-white dark:text-black">
           {names.at(0)}

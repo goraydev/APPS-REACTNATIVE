@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import ThemedView from '@/presentation/shared/ThemedView';
 import ThemedText from '@/presentation/shared/ThemedText';
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import useTeacher from '@/presentation/teachers/hoooks/useTeacher';
 import ThemedActivity from '@/presentation/shared/ThemedActivity';
 import { useNavigation } from 'expo-router';
@@ -114,7 +114,9 @@ export default function TeacherScreen() {
           </View>
         </View>
         <View className="my-4 flex flex-row gap-4">
-          <Pressable className="flex flex-1 flex-row items-center justify-center gap-2 rounded-full bg-bg-primary p-4 active:bg-blue-800">
+          <Pressable
+            className="flex flex-1 flex-row items-center justify-center gap-2 rounded-full bg-bg-primary p-4 active:bg-blue-800"
+            onPress={() => router.push(`(tabs)/(stack)/calification/${id}`)}>
             <Ionicons name="star" size={24} color="white" />
             <ThemedText type="semibold">Calificar</ThemedText>
           </Pressable>
