@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import ThemedView from '@/presentation/shared/ThemedView';
 import ThemedText from '@/presentation/shared/ThemedText';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -7,6 +7,7 @@ import ThemedActivity from '@/presentation/shared/ThemedActivity';
 import { useNavigation } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Pressable, Text, View } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function TeacherScreen() {
   const { id } = useLocalSearchParams();
@@ -15,8 +16,6 @@ export default function TeacherScreen() {
   const { getTeacherByIdQuery, isLoading, data } = useTeacher(+id);
 
   useEffect(() => {
-    if (!data) return;
-    getTeacherByIdQuery.refetch();
     navigation.setOptions({
       title: 'Volver',
       headerTitleStyle: {
@@ -24,7 +23,13 @@ export default function TeacherScreen() {
         fontWeight: 'bold',
       },
     });
-  }, [data]);
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      getTeacherByIdQuery.refetch();
+    }, [id])
+  );
 
   if (isLoading) {
     return <ThemedActivity />;
@@ -123,7 +128,7 @@ export default function TeacherScreen() {
           <Pressable className="flex flex-1 flex-row items-center justify-center gap-2 rounded-full border-2 border-bg-primary active:bg-bg-primary">
             <Ionicons name="chatbubble" size={24} color="#3b82f6" />
             <ThemedText type="semibold" className="text-blue-500">
-              Comentar
+              Ver Comentarios
             </ThemedText>
           </Pressable>
         </View>

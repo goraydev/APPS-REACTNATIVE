@@ -5,7 +5,7 @@ export default function useTeachers() {
   const getTeachersQuery = useQuery({
     queryKey: ['teachers'],
     queryFn: () => getTeachers(),
-    staleTime: 1000 * 60 * 60, // 1 hora
+    /* staleTime: 1000 * 60 * 60, // 1 hora */
   });
 
   return {

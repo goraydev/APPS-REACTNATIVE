@@ -13,10 +13,6 @@ export default function HomeScreen() {
   const [searchBox, setSearchBox] = useState('');
   const { getTeachersQuery, isLoading, data } = useTeachers();
 
-  useEffect(() => {
-    getTeachersQuery.refetch();
-  }, []);
-
   if (isLoading) {
     return <ThemedActivity />;
   }
@@ -70,6 +66,8 @@ export default function HomeScreen() {
             renderItem={({ item }) => <CardTeacher {...item} key={item.id} />}
             ItemSeparatorComponent={() => <View className="mb-2" />}
             className="my-4"
+            refreshing={getTeachersQuery.isRefetching}
+            onRefresh={() => getTeachersQuery.refetch()}
           />
         </ThemedView>
       </KeyboardAvoidingView>
