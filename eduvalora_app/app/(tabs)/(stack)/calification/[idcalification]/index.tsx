@@ -7,6 +7,7 @@ import useTeacher from '@/presentation/teachers/hoooks/useTeacher';
 import ThemedActivity from '@/presentation/shared/ThemedActivity';
 import ThemedTextInput from '@/presentation/shared/ThemedTextInput';
 import { useAuthStore } from '@/presentation/auth/store/store';
+import useSendCalification from '@/presentation/teachers/hoooks/useSendCalification';
 
 type RatingValue = 0 | 1 | 2 | 3 | 4 | 5;
 
@@ -37,6 +38,7 @@ export default function CalificationScreen() {
   const [rating, setRating] = useState<RatingValue>(0);
   const [comment, setComment] = useState<string>('');
   const user = useAuthStore((state) => state.user);
+  const { sendCalificationQuery, isLoading: isLoadingCalification } = useSendCalification();
 
   const handleSubmit = (): void => {
     if (!user) {
@@ -45,7 +47,17 @@ export default function CalificationScreen() {
     }
 
     if (rating === 0) return;
-    console.log({ rating, comment });
+
+    //enviar a la base de dato
+    sendCalificationQuery.mutate({
+      id_user: user.id,
+      id_teacher: +idcalification,
+      rating,
+      comment,
+    });
+    sendCalificationQuery.reset();
+    setRating(0);
+    setComment('');
   };
 
   const isDisabled = rating === 0;
@@ -70,20 +82,21 @@ export default function CalificationScreen() {
     <>
       <ThemedView padding>
         <View className="mt-2">
-          <ThemedText type="h1" className="font-bold">
+          <ThemedText type="h2" className="font-bold">
             Calificar al Docente
           </ThemedText>
         </View>
         <View className="mt-2 rounded-lg bg-bg-secondary p-4 dark:bg-gray-950">
+          <ThemedText type="h1" className="mt-2">
+            {data?.names} {data?.paternal_surname} {data?.maternal_surname}
+          </ThemedText>
           <ThemedText type="semibold" numberOfLines={2} ellipsizeMode="tail">
             {data?.faculty}
-          </ThemedText>
-          <ThemedText type="h2" className="mt-2">
-            {data?.names} {data?.paternal_surname} {data?.maternal_surname}
           </ThemedText>
         </View>
 
         <View className=" mt-2 rounded-lg bg-bg-secondary  p-4 dark:bg-gray-950">
+          <ThemedText>Tu calificación</ThemedText>
           <StarRating rating={rating} onRate={setRating} />
         </View>
         <View className=" mt-2 rounded-lg bg-bg-secondary  p-4 dark:bg-gray-950">
@@ -110,7 +123,7 @@ export default function CalificationScreen() {
           <Pressable
             className="flex flex-1 flex-row items-center justify-center gap-2 rounded-full bg-bg-primary p-4 active:bg-blue-800"
             onPress={handleSubmit}
-            disabled={isDisabled}>
+            disabled={isDisabled || isLoadingCalification}>
             <ThemedText type="semibold">Enviar calificación</ThemedText>
           </Pressable>
         </View>

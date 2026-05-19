@@ -63,3 +63,11 @@ export enum Faculty {
 export enum Rol {
   Docente = 'docente',
 }
+
+
+export interface Calification {
+  id_user:    number;
+  id_teacher: number;
+  rating:     number;
+  comment:    string;
+}
