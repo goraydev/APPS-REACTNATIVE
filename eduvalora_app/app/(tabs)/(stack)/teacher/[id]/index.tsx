@@ -10,6 +10,7 @@ import { Button, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import BottomSheet, { BottomSheetFlatList, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import useGetCalificationsComments from '@/presentation/teachers/hoooks/useGetCalificationsComments';
 
 export default function TeacherScreen() {
   const { id } = useLocalSearchParams();
@@ -26,6 +27,11 @@ export default function TeacherScreen() {
   const snapPoints = useMemo(() => ['25%', '50%', '90%'], []);
 
   const { getTeacherByIdQuery, isLoading, data } = useTeacher(+id);
+  const {
+    getCalificationsCommentsQuery,
+    isLoadingCalificationsComments,
+    dataCalificationsComments,
+  } = useGetCalificationsComments(+id);
 
   // callbacks
   const handleSheetChange = useCallback((index) => {
@@ -69,7 +75,12 @@ export default function TeacherScreen() {
 
   useFocusEffect(
     useCallback(() => {
-      getTeacherByIdQuery.refetch();
+      const fetchData = async () => {
+        await getTeacherByIdQuery.refetch();
+        const result = await getCalificationsCommentsQuery.refetch();
+        console.log('comentarios: ', result.data);
+      };
+      fetchData();
     }, [id])
   );
 

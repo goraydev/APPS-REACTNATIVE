@@ -64,10 +64,33 @@ export enum Rol {
   Docente = 'docente',
 }
 
-
 export interface Calification {
-  id_user:    number;
+  id_user: number;
   id_teacher: number;
-  rating:     number;
-  comment:    string;
+  rating: number;
+  comment: string;
+}
+
+export interface CommentsAndRatings {
+  id: number;
+  photo: null | string;
+  coment: string;
+  rating: number;
+  id_user: number;
+  replies: Reply[];
+  username: string;
+  created_at: Date;
+  id_teacher: number;
+}
+
+export interface Reply {
+  photo: null | string;
+  answer: string;
+  id_user: number;
+  username: string;
+  id_answer: number;
+  created_at: Date;
+  id_comentrating: number;
+  parent_username: null | string;
+  parent_answer_id: number | null;
 }

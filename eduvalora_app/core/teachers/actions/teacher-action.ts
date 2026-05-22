@@ -1,6 +1,6 @@
 import { eduvaloraAPI } from '@/core/api/eduvaloraApi';
 import axios from 'axios';
-import { Calification, Teacher } from '../interfaces/teachers';
+import { Calification, CommentsAndRatings, Teacher } from '../interfaces/teachers';
 
 export const getTeachers = async () => {
   try {
@@ -45,5 +45,23 @@ export const submitCalification = async (form: Calification) => {
       }
     }
     throw new Error('Error al enviar la calificación');
+  }
+};
+
+export const getCalificationsComments = async (id_teacher: number) => {
+  try {
+    
+    const { data } = await eduvaloraAPI.get<CommentsAndRatings>(
+      `/calificaciones/docente/${id_teacher}`
+    );
+    return data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const responseData = error.response?.data;
+      if (responseData?.message) {
+        throw new Error(responseData.message);
+      }
+    }
+    throw new Error('Error al obtener los comentarios y calificaciones');
   }
 };
