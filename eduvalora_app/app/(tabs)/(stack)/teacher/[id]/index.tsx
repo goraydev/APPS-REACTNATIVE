@@ -24,7 +24,7 @@ export default function TeacherScreen() {
     []
   );
 
-  const snapPoints = useMemo(() => ['25%', '50%', '90%'], []);
+  const snapPoints = useMemo(() => ['25%', '50%'], []);
 
   const { getTeacherByIdQuery, isLoading, data } = useTeacher(+id);
   const {
