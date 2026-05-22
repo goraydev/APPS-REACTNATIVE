@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import ThemedView from '@/presentation/shared/ThemedView';
 import ThemedText from '@/presentation/shared/ThemedText';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -6,14 +6,56 @@ import useTeacher from '@/presentation/teachers/hoooks/useTeacher';
 import ThemedActivity from '@/presentation/shared/ThemedActivity';
 import { useNavigation } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { Pressable, Text, View } from 'react-native';
+import { Button, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
+import BottomSheet, { BottomSheetFlatList, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function TeacherScreen() {
   const { id } = useLocalSearchParams();
   const navigation = useNavigation();
+  const sheetRef = useRef<BottomSheet>(null);
+  const dataBottomSheet = useMemo(
+    () =>
+      Array(50)
+        .fill(0)
+        .map((_, index) => `index-${index}`),
+    []
+  );
+
+  const snapPoints = useMemo(() => ['25%', '50%', '90%'], []);
 
   const { getTeacherByIdQuery, isLoading, data } = useTeacher(+id);
+
+  // callbacks
+  const handleSheetChange = useCallback((index) => {
+    console.log('handleSheetChange', index);
+  }, []);
+
+  const handleOpenComments = useCallback(() => {
+    sheetRef.current?.snapToIndex(1);
+  }, []);
+
+  const renderBackdrop = useCallback(
+    (props) => (
+      <BottomSheetBackdrop
+        {...props}
+        disappearsOnIndex={-1}
+        appearsOnIndex={0}
+        pressBehavior="close"
+      />
+    ),
+    []
+  );
+
+  const renderItem = useCallback(
+    ({ item }) => (
+      <View style={styles.itemContainer}>
+        <ThemedText>{item}</ThemedText>
+      </View>
+    ),
+    []
+  );
 
   useEffect(() => {
     navigation.setOptions({
@@ -36,7 +78,7 @@ export default function TeacherScreen() {
   }
 
   return (
-    <>
+    <GestureHandlerRootView style={styles.container}>
       <ThemedView padding scroll>
         <View className="flex items-center justify-center">
           <View className="mt-2 flex items-center justify-center rounded-xl bg-bg-primary p-8 dark:bg-gray-950">
@@ -125,7 +167,9 @@ export default function TeacherScreen() {
             <Ionicons name="star" size={24} color="white" />
             <ThemedText type="semibold">Calificar</ThemedText>
           </Pressable>
-          <Pressable className="flex flex-1 flex-row items-center justify-center gap-2 rounded-full border-2 border-bg-primary active:bg-bg-primary">
+          <Pressable
+            className="flex flex-1 flex-row items-center justify-center gap-2 rounded-full border-2 border-bg-primary active:bg-bg-primary"
+            onPress={handleOpenComments}>
             <Ionicons name="chatbubble" size={24} color="#3b82f6" />
             <ThemedText type="semibold" className="text-blue-500">
               Ver Comentarios
@@ -133,6 +177,36 @@ export default function TeacherScreen() {
           </Pressable>
         </View>
       </ThemedView>
-    </>
+      <BottomSheet
+        ref={sheetRef}
+        index={-1}
+        snapPoints={snapPoints}
+        enableDynamicSizing={false}
+        enablePanDownToClose={true}
+        backdropComponent={renderBackdrop}
+        onChange={handleSheetChange}>
+        <BottomSheetFlatList
+          data={dataBottomSheet}
+          keyExtractor={(i) => i}
+          renderItem={renderItem}
+          contentContainerStyle={styles.contentContainer}
+          className="bg-gray-300 dark:bg-gray-950"
+        />
+      </BottomSheet>
+    </GestureHandlerRootView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  itemContainer: {
+    padding: 12,
+    borderBottomWidth: 0.5,
+    borderBottomColor: '#ccc',
+  },
+  contentContainer: {
+    padding: 16,
+  },
+});
