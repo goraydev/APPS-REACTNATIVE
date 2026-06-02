@@ -94,3 +94,10 @@ export interface Reply {
   parent_username: null | string;
   parent_answer_id: number | null;
 }
+
+export interface FormatSendReply {
+  id_user: number;
+  id_comentrating: number;
+  answer: string;
+  parent_answer_id: number | null;
+}

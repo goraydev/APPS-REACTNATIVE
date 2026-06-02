@@ -11,18 +11,13 @@ import { useFocusEffect } from '@react-navigation/native';
 import BottomSheet, { BottomSheetFlatList, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import useGetCalificationsComments from '@/presentation/teachers/hoooks/useGetCalificationsComments';
+import { CommentsAndRatings } from '@/core/teachers/interfaces/teachers';
+import CardComents from '@/presentation/teachers/components/CardComents';
 
 export default function TeacherScreen() {
   const { id } = useLocalSearchParams();
   const navigation = useNavigation();
   const sheetRef = useRef<BottomSheet>(null);
-  const dataBottomSheet = useMemo(
-    () =>
-      Array(50)
-        .fill(0)
-        .map((_, index) => `index-${index}`),
-    []
-  );
 
   const snapPoints = useMemo(() => ['25%', '50%'], []);
 
@@ -55,9 +50,50 @@ export default function TeacherScreen() {
   );
 
   const renderItem = useCallback(
-    ({ item }) => (
+    ({ item }: { item: CommentsAndRatings }) => (
       <View style={styles.itemContainer}>
-        <ThemedText>{item}</ThemedText>
+        {/* Cabecera: avatar + usuario + rating */}
+        <View className="flex flex-row items-center gap-3">
+          <View className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-400">
+            <ThemedText type="semibold" className="text-white">
+              {item.username?.at(0)?.toUpperCase()}
+            </ThemedText>
+          </View>
+          <View className="flex-1">
+            <ThemedText type="semibold">{item.username}</ThemedText>
+            <ThemedText className="text-xs text-gray-400">
+              {new Date(item.created_at).toLocaleDateString('es-PE')}
+            </ThemedText>
+          </View>
+          {/* Estrellas */}
+          <View className="flex flex-row items-center gap-1">
+            <Ionicons name="star" size={14} color="#3b82f6" />
+            <ThemedText type="semibold">{item.rating}</ThemedText>
+          </View>
+        </View>
+
+        {/* Comentario */}
+        <ThemedText className="mt-2">{item.coment}</ThemedText>
+
+        {/* Replies */}
+        {item.replies?.length > 0 && (
+          <View className="mt-2 border-l-2 border-blue-300 pl-3">
+            {item.replies.map((reply) => (
+              <View key={reply.id_answer} className="mt-2">
+                <ThemedText type="semibold" className="text-sm">
+                  {reply.username}
+                  {reply.parent_username ? (
+                    <ThemedText className="text-sm text-blue-400">
+                      {' '}
+                      → {reply.parent_username}
+                    </ThemedText>
+                  ) : null}
+                </ThemedText>
+                <ThemedText className="text-sm">{reply.answer}</ThemedText>
+              </View>
+            ))}
+          </View>
+        )}
       </View>
     ),
     []
@@ -77,8 +113,6 @@ export default function TeacherScreen() {
     useCallback(() => {
       const fetchData = async () => {
         await getTeacherByIdQuery.refetch();
-        const result = await getCalificationsCommentsQuery.refetch();
-        console.log('comentarios: ', result.data);
       };
       fetchData();
     }, [id])
@@ -197,11 +231,17 @@ export default function TeacherScreen() {
         backdropComponent={renderBackdrop}
         onChange={handleSheetChange}>
         <BottomSheetFlatList
-          data={dataBottomSheet}
-          keyExtractor={(i) => i}
-          renderItem={renderItem}
+          data={dataCalificationsComments}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => <CardComents {...item} key={item.id} />}
           contentContainerStyle={styles.contentContainer}
           className="bg-gray-300 dark:bg-gray-950"
+          ListEmptyComponent={
+            <View className="items-center justify-center py-8">
+              <Ionicons name="chatbubble-outline" size={40} color="#9ca3af" />
+              <ThemedText className="mt-2 text-gray-400">Sin comentarios aún</ThemedText>
+            </View>
+          }
         />
       </BottomSheet>
     </GestureHandlerRootView>

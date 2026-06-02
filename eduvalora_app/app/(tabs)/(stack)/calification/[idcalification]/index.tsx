@@ -109,7 +109,7 @@ export default function CalificationScreen() {
             numberOfLines={6}
             className="mt-2"
             textAlignVertical="top"
-            accessibilityLabel="Campoi de comentario"
+            accessibilityLabel="Campo de comentario"
           />
         </View>
         <View className="mt-4 flex flex-row gap-4">
