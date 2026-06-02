@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import ThemedView from '@/presentation/shared/ThemedView';
 import ThemedText from '@/presentation/shared/ThemedText';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -13,13 +13,24 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import useGetCalificationsComments from '@/presentation/teachers/hoooks/useGetCalificationsComments';
 import { CommentsAndRatings } from '@/core/teachers/interfaces/teachers';
 import CardComents from '@/presentation/teachers/components/CardComents';
+import useSendCommentReply from '@/presentation/teachers/hoooks/useSendCommentReply';
+import { useAuthStore } from '@/presentation/auth/store/store';
 
 export default function TeacherScreen() {
   const { id } = useLocalSearchParams();
   const navigation = useNavigation();
   const sheetRef = useRef<BottomSheet>(null);
+  const [replyingTo, setReplyingTo] = useState<{
+    id_comentrating: number;
+    parent_answer_id: number | null;
+    username: string;
+  } | null>(null);
+  const user = useAuthStore((state) => state.user);
 
-  const snapPoints = useMemo(() => ['25%', '50%'], []);
+  const [commentText, setCommentText] = useState('');
+  const { sendCommentReplyQuery } = useSendCommentReply(+id);
+
+  const snapPoints = useMemo(() => ['25%', '50%', '75%'], []);
 
   const { getTeacherByIdQuery, isLoading, data } = useTeacher(+id);
   const {
@@ -27,6 +38,24 @@ export default function TeacherScreen() {
     isLoadingCalificationsComments,
     dataCalificationsComments,
   } = useGetCalificationsComments(+id);
+
+  const handleSend = () => {
+    if (!user || !commentText.trim() || !replyingTo) return;
+    sendCommentReplyQuery.mutate(
+      {
+        id_user: user.id,
+        id_comentrating: replyingTo.id_comentrating,
+        answer: commentText.trim(),
+        parent_answer_id: replyingTo.parent_answer_id,
+      },
+      {
+        onSuccess: () => {
+          setCommentText('');
+          setReplyingTo(null);
+        },
+      }
+    );
+  };
 
   // callbacks
   const handleSheetChange = useCallback((index) => {
@@ -49,56 +78,6 @@ export default function TeacherScreen() {
     []
   );
 
-  const renderItem = useCallback(
-    ({ item }: { item: CommentsAndRatings }) => (
-      <View style={styles.itemContainer}>
-        {/* Cabecera: avatar + usuario + rating */}
-        <View className="flex flex-row items-center gap-3">
-          <View className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-400">
-            <ThemedText type="semibold" className="text-white">
-              {item.username?.at(0)?.toUpperCase()}
-            </ThemedText>
-          </View>
-          <View className="flex-1">
-            <ThemedText type="semibold">{item.username}</ThemedText>
-            <ThemedText className="text-xs text-gray-400">
-              {new Date(item.created_at).toLocaleDateString('es-PE')}
-            </ThemedText>
-          </View>
-          {/* Estrellas */}
-          <View className="flex flex-row items-center gap-1">
-            <Ionicons name="star" size={14} color="#3b82f6" />
-            <ThemedText type="semibold">{item.rating}</ThemedText>
-          </View>
-        </View>
-
-        {/* Comentario */}
-        <ThemedText className="mt-2">{item.coment}</ThemedText>
-
-        {/* Replies */}
-        {item.replies?.length > 0 && (
-          <View className="mt-2 border-l-2 border-blue-300 pl-3">
-            {item.replies.map((reply) => (
-              <View key={reply.id_answer} className="mt-2">
-                <ThemedText type="semibold" className="text-sm">
-                  {reply.username}
-                  {reply.parent_username ? (
-                    <ThemedText className="text-sm text-blue-400">
-                      {' '}
-                      → {reply.parent_username}
-                    </ThemedText>
-                  ) : null}
-                </ThemedText>
-                <ThemedText className="text-sm">{reply.answer}</ThemedText>
-              </View>
-            ))}
-          </View>
-        )}
-      </View>
-    ),
-    []
-  );
-
   useEffect(() => {
     navigation.setOptions({
       title: 'Volver',
@@ -113,6 +92,7 @@ export default function TeacherScreen() {
     useCallback(() => {
       const fetchData = async () => {
         await getTeacherByIdQuery.refetch();
+        await getCalificationsCommentsQuery.refetch();
       };
       fetchData();
     }, [id])
@@ -233,7 +213,15 @@ export default function TeacherScreen() {
         <BottomSheetFlatList
           data={dataCalificationsComments}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => <CardComents {...item} key={item.id} />}
+          renderItem={({ item }) => (
+            <CardComents
+              {...item}
+              key={item.id}
+              onReplyTo={(id_comentrating, parent_answer_id, username) =>
+                setReplyingTo({ id_comentrating, parent_answer_id, username })
+              }
+            />
+          )}
           contentContainerStyle={styles.contentContainer}
           className="bg-gray-300 dark:bg-gray-950"
           ListEmptyComponent={

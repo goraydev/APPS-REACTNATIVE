@@ -1,116 +1,122 @@
-import { View, Pressable, Alert } from 'react-native';
-import React, { useState } from 'react';
-import { Reply, FormatSendReply } from '../../../core/teachers/interfaces/teachers';
+import { Reply } from '@/core/teachers/interfaces/teachers';
 import ThemedText from '@/presentation/shared/ThemedText';
-import ThemedTextInput from '@/presentation/shared/ThemedTextInput';
-import { useAuthStore } from '@/presentation/auth/store/store';
-import useSendCommentReply from '../hoooks/useSendCommentReply';
+import { Pressable, StyleSheet, View } from 'react-native';
 
 interface Props {
-  reply: Reply;
+  reply: Reply & { children?: Reply[] };
   id_comentrating: number;
+  id_teacher: number;
   level?: number;
+  isLast?: boolean;
+  onReplyTo: (id_comentrating: number, parent_answer_id: number | null, username: string) => void;
 }
 
-export default function ReplyItem({ reply, id_comentrating, level = 0 }: Props) {
-  const user = useAuthStore((state) => state.user);
-  const { sendCommentReplyQuery, isLoading } = useSendCommentReply();
-  const [showForm, setShowForm] = useState(false);
-  const [answer, setAnswer] = useState('');
-
-  const handleSubmit = () => {
-    if (!user) {
-      Alert.alert('Error', 'Debes iniciar sesión para responder');
-      return;
-    }
-    if (!answer.trim()) return;
-
-    const newAnswer: FormatSendReply = {
-      id_user: user.id,
-      id_comentrating, // ← siempre el comentario raíz
-      answer: answer.trim(),
-      parent_answer_id: reply.id_answer, // ← apunta a esta reply
-    };
-
-    sendCommentReplyQuery.mutate(newAnswer, {
-      onSuccess: () => {
-        setAnswer('');
-        setShowForm(false);
-        sendCommentReplyQuery.reset();
-        Alert.alert('Éxito', 'Respuesta enviada');
-      },
-    });
-  };
-
-  // Limitar indentación visual a 4 niveles
-  const indentLevel = Math.min(level, 4);
+export default function ReplyItem({
+  reply,
+  id_comentrating,
+  id_teacher,
+  level = 0,
+  onReplyTo,
+}: Props) {
+  const currentLevel = Math.min(level, 4);
 
   return (
-    <View
-      style={{
-        marginLeft: indentLevel * 12,
-        borderLeftWidth: 2,
-        borderLeftColor: level > 3 ? '#ef4444' : '#93c5fd',
-        paddingLeft: 8,
-        marginTop: 8,
-      }}>
-      {/* Cabecera */}
-      <View className="flex flex-row items-center gap-2">
-        <View className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-400">
-          <ThemedText className="text-xs font-bold text-white">
-            {reply.username?.at(0)?.toUpperCase()}
-          </ThemedText>
+    <View>
+      <View style={styles.row}>
+        <View style={styles.avatar}>
+          <ThemedText style={styles.avatarText}>{reply.username?.at(0)?.toUpperCase()}</ThemedText>
         </View>
-        <View>
-          <View className="flex flex-row items-center gap-1">
-            <ThemedText type="semibold" className="text-sm">
-              {reply.username}
-            </ThemedText>
+        <View style={{ flex: 1 }}>
+          <View style={styles.userRow}>
+            <ThemedText style={styles.username}>{reply.username}</ThemedText>
             {reply.parent_username && (
-              <>
-                <ThemedText className="text-xs text-gray-400">→</ThemedText>
-                <ThemedText className="text-xs text-blue-400">@{reply.parent_username}</ThemedText>
-              </>
+              <ThemedText style={styles.replyTarget}>@{reply.parent_username}</ThemedText>
             )}
           </View>
-          <ThemedText className="text-xs text-gray-400">
-            {new Date(reply.created_at).toLocaleDateString('es-PE')}
-          </ThemedText>
+          <ThemedText style={styles.answerText}>{reply.answer}</ThemedText>
+          <View style={styles.meta}>
+            <ThemedText style={styles.timeText}>
+              {new Date(reply.created_at).toLocaleDateString('es-PE')}
+            </ThemedText>
+            <Pressable onPress={() => onReplyTo(id_comentrating, reply.id_answer, reply.username)}>
+              <ThemedText style={styles.replyBtn}>Responder</ThemedText>
+            </Pressable>
+          </View>
         </View>
       </View>
 
-      {/* Contenido */}
-      <ThemedText className="mt-1 text-sm">{reply.answer}</ThemedText>
-
-      {/* Botón responder */}
-      <Pressable onPress={() => setShowForm(!showForm)} className="mt-1 self-start">
-        <ThemedText className="text-xs text-blue-400">
-          {showForm ? 'Cancelar' : 'Responder'}
-        </ThemedText>
-      </Pressable>
-
-      {/* Formulario inline */}
-      {showForm && (
-        <View className="mt-2 flex flex-row items-center gap-2 rounded-md bg-gray-300 p-2 dark:bg-gray-950">
-          <ThemedTextInput
-            placeholder={`Responder a ${reply.username}...`}
-            value={answer}
-            onChangeText={setAnswer}
-            multiline
-            numberOfLines={3}
-            className="flex-1"
-            textAlignVertical="top"
-          />
-          <Pressable
-            className="rounded-full bg-bg-primary px-3 py-2 active:bg-blue-800"
-            onPress={handleSubmit}
-            disabled={isLoading || !answer.trim()}>
-            <ThemedText type="semibold" className="text-xs">
-              {isLoading ? '...' : 'Enviar'}
-            </ThemedText>
-          </Pressable>
+      {reply.children && reply.children.length > 0 && (
+        <View style={{ marginLeft: currentLevel * 10 }}>
+          {reply.children.map((child, index) => (
+            <ReplyItem
+              key={child.id_answer}
+              reply={child}
+              id_comentrating={id_comentrating}
+              id_teacher={id_teacher}
+              level={currentLevel + 1}
+              isLast={index === reply.children!.length - 1}
+              onReplyTo={onReplyTo} // ← se propaga hacia abajo
+            />
+          ))}
         </View>
       )}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+    gap: 8,
+    marginTop: 8,
+  },
+  avatar: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: '#fce7f3',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+  },
+  avatarText: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: '#be185d',
+  },
+  userRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    flexWrap: 'wrap',
+  },
+  username: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#6b7280',
+  },
+  replyTarget: {
+    fontSize: 12,
+    color: '#3b82f6',
+    fontWeight: '500',
+  },
+  answerText: {
+    fontSize: 13,
+    lineHeight: 18,
+  },
+  meta: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginTop: 4,
+  },
+  timeText: {
+    fontSize: 11,
+    color: '#9ca3af',
+  },
+  replyBtn: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: '#6b7280',
+  },
+});

@@ -6,7 +6,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { useAuthStore } from '@/presentation/auth/store/store';
 import useSendCommentReply from '../hoooks/useSendCommentReply';
 import ThemedTextInput from '@/presentation/shared/ThemedTextInput';
-import ReplyItem from './ReplyItem';
 
 export default function CardComents(item: CommentsAndRatings) {
   const user = useAuthStore((state) => state.user);
@@ -28,8 +27,7 @@ export default function CardComents(item: CommentsAndRatings) {
 
     sendCommentReplyQuery.mutate(newAnswer);
     setCommentAnswer('');
-    sendCommentReplyQuery.reset();
-    Alert.alert('Éxito', 'Respuesta enviada correctamente');
+    
   };
 
   return (
@@ -78,9 +76,20 @@ export default function CardComents(item: CommentsAndRatings) {
 
       {/* Replies */}
       {item.replies?.length > 0 && (
-        <View className="mt-3">
+        <View className="mt-2 border-l-2 border-blue-300 pl-3">
           {item.replies.map((reply) => (
-            <ReplyItem key={reply.id_answer} reply={reply} id_comentrating={item.id} level={0} />
+            <View key={reply.id_answer} className="mt-2">
+              <ThemedText type="semibold" className="text-sm">
+                {reply.username}
+                {reply.parent_username ? (
+                  <ThemedText className="text-sm text-blue-400">
+                    {' '}
+                    → {reply.parent_username}
+                  </ThemedText>
+                ) : null}
+              </ThemedText>
+              <ThemedText className="text-sm">{reply.answer}</ThemedText>
+            </View>
           ))}
         </View>
       )}

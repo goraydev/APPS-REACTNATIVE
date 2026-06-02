@@ -68,6 +68,7 @@ export const getCalificationsComments = async (id_teacher: number) => {
 export const sendCommentReply = async (form: FormatSendReply) => {
   try {
     const { data } = await eduvaloraAPI.post('responder', form);
+    console.log("comentario/respuesta: ",data);
     return data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

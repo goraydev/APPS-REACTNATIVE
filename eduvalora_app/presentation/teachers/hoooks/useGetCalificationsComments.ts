@@ -5,7 +5,7 @@ export default function useGetCalificationsComments(id_teacher: number) {
   const getCalificationsCommentsQuery = useQuery({
     queryKey: ['califications_comments', id_teacher],
     queryFn: () => getCalificationsComments(id_teacher),
-     enabled: !!id_teacher,
+    enabled: !!id_teacher,
   });
 
   return {
